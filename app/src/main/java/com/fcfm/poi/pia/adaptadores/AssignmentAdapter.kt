@@ -8,6 +8,7 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.fcfm.poi.pia.R
 import com.fcfm.poi.pia.modelos.Assignment
+import kotlinx.android.synthetic.main.assignment_list.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,7 +18,11 @@ class AssignmentAdapter(private val assignmentList : MutableList<Assignment>) :
     class AssignmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun asignarInformacion(assignment: Assignment) {
+            itemView.assignmentTitle.text = assignment.titulo
 
+            val formatter = SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.getDefault())
+            val formatedDate = formatter.format(Date(assignment.timeStamp as Long))
+            itemView.assignmentDueDate.text = formatedDate
         }
     }
 

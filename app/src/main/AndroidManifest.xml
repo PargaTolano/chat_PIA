@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".seeAssignmentsActivity"></activity>
+        <activity android:name=".SeeAssignmentsActivity"></activity>
         <activity android:name=".loginActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".CreacionTareas" />
