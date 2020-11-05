@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".loginActivity">
+    tools:context=".registerActivity">
 
     <ImageView
         android:id="@+id/imageView5"
@@ -17,13 +17,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackgroundLayer"/>
+        android:background="@color/colorBackgroundLayer" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:orientation="vertical"
@@ -31,11 +31,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
         app:layout_constraintVertical_bias="0.0">
 
         <EditText
-            android:id="@+id/txtUsuario"
+            android:id="@+id/txtUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -48,7 +48,7 @@
             android:backgroundTint="@color/colorWhite"/>
 
         <EditText
-            android:id="@+id/txtPassword"
+            android:id="@+id/txtPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -60,56 +60,52 @@
             android:textColorHint="@color/colorWhite"
             android:backgroundTint="@color/colorWhite"/>
 
+
         <Button
-            android:id="@+id/btnIniciar"
+            android:id="@+id/btnRegistrarse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/background_button"
-            android:text="Iniciar sesión"
+            android:text="Registrarse"
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/viewRegistrate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="¿No tienes cuenta? Registrate"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="18sp" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/xolologo" />
+        app:layout_constraintGuide_percent="0.25" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/app_logo"
+        android:layout_marginTop="64dp"
+        android:text="Registrate"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Crea una cuenta y chatea"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
