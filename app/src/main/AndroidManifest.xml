@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SeeAssignmentsActivity"></activity>
-        <activity android:name=".loginActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".CreacionTareas" />
         <activity android:name=".registerActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".loginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
