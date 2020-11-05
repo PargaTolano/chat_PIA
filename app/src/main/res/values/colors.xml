@@ -8,4 +8,7 @@
     <color name="colorItem3">#56E39F</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBackgroundLayer">#C6242325</color>
+    <color name="colorChat1">#91A6FF</color>
+    <color name="colorChat2">#4769FF</color>
+    <color name="colorChatLetter">#47454A</color>
 </resources>
