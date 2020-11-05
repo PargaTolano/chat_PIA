@@ -12,6 +12,9 @@
         <activity android:name=".loginActivity"/>
         <activity android:name=".ChatActivity"/>
         <activity android:name=".CreacionTareas"/>
+        <activity android:name=".registerActivity"/>
+        <activity android:name=".loginActivity" />
+        <activity android:name=".ChatActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
