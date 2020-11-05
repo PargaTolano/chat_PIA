@@ -1,0 +1,37 @@
+package com.fcfm.poi.pia.adaptadores
+
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.recyclerview.widget.RecyclerView
+import com.fcfm.poi.pia.R
+import com.fcfm.poi.pia.modelos.Assignment
+import java.text.SimpleDateFormat
+import java.util.*
+
+class AssignmentAdapter(private val assignmentList : MutableList<Assignment>) :
+    RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder>(){
+
+    class AssignmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun asignarInformacion(assignment: Assignment) {
+
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssignmentAdapter.AssignmentViewHolder {
+
+        return AssignmentAdapter.AssignmentViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.custom_item_mensaje, parent, false)
+        )
+    }
+
+    override fun onBindViewHolder(holder: AssignmentAdapter.AssignmentViewHolder, position: Int) {
+
+        holder.asignarInformacion(assignmentList[position])
+    }
+
+    override fun getItemCount(): Int = assignmentList.size
+}
