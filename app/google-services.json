@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "173680209127",
+    "firebase_url": "https://poi2-af029.firebaseio.com",
+    "project_id": "poi2-af029",
+    "storage_bucket": "poi2-af029.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173680209127:android:38ccd938723c4b556b4642",
+        "android_client_info": {
+          "package_name": "com.fcfm.poi.pia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173680209127-m9fjsgqvb42orcicqan57l2qmq371o0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDITb3zjlLut4EgFgCbnSRCAmKP0yEYM_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173680209127-m9fjsgqvb42orcicqan57l2qmq371o0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
