@@ -32,7 +32,7 @@ class registerActivity : AppCompatActivity() {
         {
             //Abrimos activity de tareas
             val intentChat = Intent(this, ChatActivity::class.java)
-            intentChat.putExtra("nombreUsuario", "Nickname"/*nombreUsuario*/)
+            intentChat.putExtra("nombreUsuario", txtUser.text.toString())
 
             startActivity(intentChat)
         }
@@ -54,7 +54,7 @@ class registerActivity : AppCompatActivity() {
                     OnCompleteListener<AuthResult?> { task ->
 
                         if(task.isSuccessful){ //Se creo correctamente la cuenta
-                            var nickname = "Romo"//txtNickname.text.toString()
+                            var nickname = txtUser.text.toString()
 
                             if(nickname.isEmpty())
                             {

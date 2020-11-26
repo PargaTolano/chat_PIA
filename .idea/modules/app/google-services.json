@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "64613425335",
+    "firebase_url": "https://piafirebaseproject-7924b.firebaseio.com",
+    "project_id": "piafirebaseproject-7924b",
+    "storage_bucket": "piafirebaseproject-7924b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64613425335:android:3b68fbc3853a0fff45ad32",
+        "android_client_info": {
+          "package_name": "com.fcfm.poi.pia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64613425335-anlahgfht5708elptmtiol486nkb1u0d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fcfm.poi.pia",
+            "certificate_hash": "556a084efef79fc6ad922d97a0b466da76e75419"
+          }
+        },
+        {
+          "client_id": "64613425335-7h3ekccosfkragmkn2nrq4t8ko6sfq0v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy9Oq4KwSMSQuivleI6kTzqxv9tvPHPvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64613425335-7h3ekccosfkragmkn2nrq4t8ko6sfq0v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

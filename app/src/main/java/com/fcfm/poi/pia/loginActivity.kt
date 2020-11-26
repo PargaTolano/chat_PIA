@@ -29,9 +29,9 @@ class loginActivity : AppCompatActivity() {
         }
 
         viewRegistrate.setOnClickListener {
-            val intentLogin = Intent(this,registerActivity::class.java)
-            /*val intent = Intent(this, CreacionTareas::class.java)*/
-            startActivity(intentLogin)
+            //val intentLogin = Intent(this,registerActivity::class.java)
+            val intent = Intent(this, CreacionTareas::class.java)
+            startActivity(intent)
         }
     }
 
@@ -41,7 +41,7 @@ class loginActivity : AppCompatActivity() {
         {
             //Abrimos activity de tareas
             val intentChat = Intent(this, ChatActivity::class.java)
-            intentChat.putExtra("nombreUsuario", "Nickname"/*nombreUsuario*/)
+            intentChat.putExtra("nombreUsuario", txtUsuario.text.toString())
 
             startActivity(intentChat)
         }
