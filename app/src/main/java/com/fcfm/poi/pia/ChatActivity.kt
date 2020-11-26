@@ -50,6 +50,7 @@ class ChatActivity : AppCompatActivity() {
         chatRef.addValueEventListener(object: ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
+                listaMensajes.clear()
                 for (snap in snapshot.children)
                 {
                     val mensaje: Mensaje = snap.getValue(Mensaje::class.java) as Mensaje
