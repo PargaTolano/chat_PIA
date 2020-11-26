@@ -30,7 +30,8 @@ class loginActivity : AppCompatActivity() {
         }
 
         viewRegistrate.setOnClickListener {
-           val intentLogin = Intent(this,registerActivity::class.java)
+            val intentLogin = Intent(this,registerActivity::class.java)
+            /*val intent = Intent(this, CreacionTareas::class.java)*/
             startActivity(intentLogin)
         }
     }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundLayer"
+    android:background="@color/colorAccent"
     tools:context=".CreacionTareas">
 
 
@@ -32,11 +32,12 @@
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:text="Titulo de la tarea"
+                android:layout_height="wrap_content"
+                android:background="@color/deepPurple"
+                android:text="Crear Tarea"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +47,8 @@
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/colorWhite"
                 android:ems="10"
                 android:hint="Titulo"
                 android:inputType="textPersonName"
@@ -64,7 +66,8 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/deepPurple"
                 android:text="Instrucciones"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
@@ -78,10 +81,13 @@
                 android:id="@+id/editText6"
                 android:layout_width="match_parent"
                 android:layout_height="78dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@color/colorWhite"
                 android:ems="10"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
+                android:textColor="@color/colorWhite"
+                android:textColorHighlight="@color/colorWhite"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/textView"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -93,7 +99,8 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/deepPurple"
                 android:text="Puntos"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
@@ -107,7 +114,8 @@
                 android:id="@+id/editText3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@android:color/white"
                 android:ems="10"
                 android:hint="Puntos"
                 android:inputType="textPersonName"
@@ -139,22 +147,21 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/tv_timer1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Fecha de entrega"
+                        android:drawableTop="@drawable/ic_time"
+                        android:gravity="center"
+                        android:hint="Selecciona hora"
+                        android:onClick="showTimePickerDialog"
+                        android:padding="12dp"
                         android:textAlignment="center"
                         android:textColor="@color/colorWhite"
-                        android:textSize="20sp" />
+                        android:textColorHint="@color/colorWhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/editText7"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="date" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -164,22 +171,19 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/tv_date1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Hora de entrega"
+                        android:drawableTop="@drawable/ic_calendar"
+                        android:gravity="center"
+                        android:hint="Seleccione día"
+                        android:padding="12dp"
                         android:textAlignment="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="20sp" />
-
-                    <EditText
-                        android:id="@+id/editText8"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:inputType="time" />
+                        android:textColorHint="@color/colorWhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:onClick="showDatePickerDialog"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -189,13 +193,13 @@
                 android:id="@+id/asignarBtn"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/background_button"
+                android:text="Asignar"
                 android:textColor="@color/colorWhite"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="Asignar" />
+                app:layout_constraintStart_toStartOf="parent" />
         </LinearLayout>
     </ScrollView>
 

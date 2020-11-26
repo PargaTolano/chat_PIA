@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
 
                 val intentChat = Intent(this, ChatActivity::class.java)
                 intentChat.putExtra("nombreUsuario", nombreUsuario)
-
                 startActivity(intentChat)
             }
         }
