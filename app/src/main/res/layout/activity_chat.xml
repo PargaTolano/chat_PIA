@@ -47,7 +47,7 @@
             android:src="@mipmap/xolologo"
             android:layout_toRightOf="@id/goBack"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"/>
+            android:layout_marginLeft="10dp"/>
         <TextView
             android:id="@+id/nombreUChat"
             android:layout_width="wrap_content"
@@ -74,6 +74,15 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/callUser"
             android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:id="@+id/tarea"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_assigment"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/videoUser"
+            android:layout_marginLeft="10dp"/>
+
 
     </RelativeLayout>
 
