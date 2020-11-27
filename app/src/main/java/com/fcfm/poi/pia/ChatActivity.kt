@@ -14,6 +14,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var nombreUsuario: String
     private val database  = FirebaseDatabase.getInstance()
     private val chatRef = database.getReference("chats")
+    private val chatroomRef = database.getReference("chatrooms")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

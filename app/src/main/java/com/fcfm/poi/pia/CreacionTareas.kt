@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_creacion_tareas.*
 import java.util.*
 
@@ -28,6 +29,9 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
     var saveyear=0
     var savehour=0
     var saveminute=0
+
+    val database = FirebaseDatabase.getInstance();
+    val assignmentsRef = database.getReference("assignments");
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
