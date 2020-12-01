@@ -30,7 +30,7 @@ class loginActivity : AppCompatActivity() {
 
         viewRegistrate.setOnClickListener {
             //val intentLogin = Intent(this,registerActivity::class.java)
-            val intent = Intent(this, CreacionTareas::class.java)
+            val intent = Intent(this, registerActivity::class.java)
             startActivity(intent)
         }
     }
@@ -39,11 +39,14 @@ class loginActivity : AppCompatActivity() {
     {
         if(firebaseAuth.currentUser != null)
         {
-            //Abrimos activity de tareas
-            val intentChat = Intent(this, ChatActivity::class.java)
-            intentChat.putExtra("nombreUsuario", txtUsuario.text.toString())
+            //Abrimos activity de tareas conectar directo al chat
+            /*val intentChat = Intent(this, ChatActivity::class.java)
+            intentChat.putExtra("nombreUsuario", txtUsuario.text.toString())*/
 
-            startActivity(intentChat)
+            val intentDash = Intent(this, dashBoardActivity::class.java)
+            intentDash.putExtra("nombreUsuario", txtUsuario.text.toString())
+
+            startActivity(intentDash)
         }
     }
 

@@ -1,11 +1,13 @@
 package com.fcfm.poi.pia
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.fcfm.poi.pia.adaptadores.ChatAdapter
 import com.fcfm.poi.pia.modelos.Mensaje
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.activity_login.*
 
 class ChatActivity : AppCompatActivity() {
 
@@ -22,6 +24,8 @@ class ChatActivity : AppCompatActivity() {
 
         nombreUsuario = intent.getStringExtra("nombreUsuario") ?: "sin_nombre"
 
+        nombreUChat.text = nombreUsuario;
+
         rvChat.adapter = adaptador
 
         btnEnviar.setOnClickListener {
@@ -33,6 +37,18 @@ class ChatActivity : AppCompatActivity() {
 
                 enviarMensaje(Mensaje("", mensaje, nombreUsuario, ServerValue.TIMESTAMP))
             }
+        }
+
+        tarea.setOnClickListener {
+            //val intentLogin = Intent(this,registerActivity::class.java)
+            val intent = Intent(this, CreacionTareas::class.java)
+            startActivity(intent)
+        }
+
+        goBack.setOnClickListener {
+            //val intentLogin = Intent(this,registerActivity::class.java)
+            val intent = Intent(this, dashBoardActivity::class.java)
+            startActivity(intent)
         }
 
         recibirMensajes()
