@@ -5,5 +5,6 @@ import java.sql.Timestamp
 class Assignment (var id: String = "",
                   var titulo: String = "",
                   var instrucciones: String = "",
-                  val timestamp: Any? = null){
+                  var puntos: Int = 0,
+                  var timestamp: Any? = null){
 }
