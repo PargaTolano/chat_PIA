@@ -60,7 +60,7 @@ class dashBoardActivity : AppCompatActivity() {
 
         tv_nameUser.text = nombreUsuario
 
-        rvDash.adapter = adaptador
+        //rvDash.adapter = adaptador
 
         btnCrearGrupo.setOnClickListener {
             //val intentLogin = Intent(this,registerActivity::class.java)
