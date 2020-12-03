@@ -15,6 +15,7 @@ import java.util.*
 class registerActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -24,7 +25,19 @@ class registerActivity : AppCompatActivity() {
         btnRegistrarse.setOnClickListener {
             autenticarSign()
         }
+
+        btnFoto.setOnClickListener{
+            startFileChooser()
+        }
     }
+
+    private fun startFileChooser(){
+        var i = Intent()
+        i.setType("image/*")
+        i.setAction(Intent.ACTION_GET_CONTENT)
+        startActivityForResult(Intent.createChooser(i,"Escoge una imagen"),111)
+    }
+
 
     private fun revisarAutenticacion()
     {
