@@ -39,7 +39,7 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
 
     val database = FirebaseDatabase.getInstance();
     val assignmentsRef = database.getReference("assignments");
-
+    var charoomRef     = database.getReference("chatrooms");
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

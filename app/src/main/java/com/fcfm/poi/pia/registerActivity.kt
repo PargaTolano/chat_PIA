@@ -13,13 +13,13 @@ import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
 
 class registerActivity : AppCompatActivity() {
-    private lateinit var firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        firebaseAuth = FirebaseAuth.getInstance()
+        print(firebaseAuth.toString())
 
         btnRegistrarse.setOnClickListener {
             autenticarSign()

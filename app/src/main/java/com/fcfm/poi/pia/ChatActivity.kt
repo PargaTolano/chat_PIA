@@ -14,15 +14,26 @@ class ChatActivity : AppCompatActivity() {
     private val listaMensajes = mutableListOf<Mensaje>()
     private val adaptador = ChatAdapter(listaMensajes)
     private lateinit var nombreUsuario: String
+    private lateinit var chatroomId : String
     private val database  = FirebaseDatabase.getInstance()
-    private val chatRef = database.getReference("chats")
     private val chatroomRef = database.getReference("chatrooms")
+    private lateinit var chatRef : DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
         nombreUsuario = intent.getStringExtra("nombreUsuario") ?: "sin_nombre"
+
+        chatroomId  = intent.getStringExtra("chatroomId") ?: ""
+
+        if(chatroomId.isEmpty()){
+            val intent = Intent(this, dashBoardActivity::class.java)
+            startActivity(intent)
+        }
+
+        chatRef = chatroomRef.child(chatroomId).child("chats");
 
         nombreUChat.text = nombreUsuario;
 
@@ -56,14 +67,13 @@ class ChatActivity : AppCompatActivity() {
 
     private fun enviarMensaje(mensaje: Mensaje) {
 
-        val mensajeFireBase = chatRef.push()
+        val mensajeFireBase = chatroomRef.child("chats").push()
         mensaje.id = mensajeFireBase.key ?: ""
 
         mensajeFireBase.setValue(mensaje)
     }
 
     private fun recibirMensajes() {
-
         chatRef.addValueEventListener(object: ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
