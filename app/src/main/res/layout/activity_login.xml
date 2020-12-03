@@ -39,26 +39,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorWhite"
             android:drawableStart="@drawable/ic_user"
             android:drawablePadding="8dp"
             android:ems="10"
-            android:hint="Usuario"
+            android:hint="Correo"
             android:inputType="textPersonName"
-            android:textColorHint="@color/colorWhite"
-            android:backgroundTint="@color/colorWhite"/>
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite" />
 
         <EditText
             android:id="@+id/txtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorWhite"
             android:drawableStart="@drawable/ic_pass"
             android:drawablePadding="8dp"
             android:ems="10"
             android:hint="Contraseña"
             android:inputType="textPassword"
-            android:textColorHint="@color/colorWhite"
-            android:backgroundTint="@color/colorWhite"/>
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite" />
 
         <Button
             android:id="@+id/btnIniciar"
