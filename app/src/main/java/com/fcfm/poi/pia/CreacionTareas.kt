@@ -3,6 +3,7 @@ package com.fcfm.poi.pia
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,8 +12,14 @@ import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import com.fcfm.poi.pia.modelos.Assignment
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_creacion_tareas.*
+import java.sql.Timestamp
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
@@ -40,6 +47,38 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
 
         pickDate()
         pickHour()
+
+        asignarBtn.setOnClickListener{
+            if( tituloText.text.isNotEmpty()        &&
+                tituloText.text.isNotBlank()        &&
+                instruccionesText.text.isNotEmpty() &&
+                instruccionesText.text.isNotBlank()
+              )
+            {
+                val tt = tituloText.text.toString()
+                val it = instruccionesText.text.toString()
+
+                //Sacar Date Time Hecho String
+                val localDate = LocalDate.of(saveyear,savemonth,saveday)
+                val localTime = LocalTime.of(savehour, saveminute)
+                val localDT   = LocalDateTime.of(localDate!!, localTime!!)
+                val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+                val finalDate = formatter.format(localDT)
+
+                val pt = puntosText.text.toString().toInt()
+
+                createAssignment(Assignment("", tt, it, pt, finalDate))
+
+                val intent = Intent(this, dashBoardActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun createAssignment(assignment:Assignment){
+        val assignmentFirebase = assignmentsRef.push()
+        assignment.id = assignmentFirebase.key ?: ""
+        assignmentFirebase.setValue(assignment)
     }
 
     private fun getDateTimeCalendar(){
@@ -49,7 +88,6 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
         year = cal.get(Calendar.YEAR)
         hour = cal.get(Calendar.HOUR)
         minute = cal.get(Calendar.MINUTE)
-
     }
 
     private fun pickDate(){
