@@ -1,11 +1,19 @@
 package com.fcfm.poi.pia
 
+import android.app.Activity
+import android.app.ProgressDialog
+import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
+import android.widget.Toast
 import com.fcfm.poi.pia.adaptadores.ChatAdapter
 import com.fcfm.poi.pia.modelos.Mensaje
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -15,6 +23,7 @@ class ChatActivity : AppCompatActivity() {
     private val adaptador = ChatAdapter(listaMensajes)
     private lateinit var nombreUsuario: String
     private lateinit var chatroomId : String
+    private lateinit var filepath : Uri
     private val database  = FirebaseDatabase.getInstance()
     private val chatroomRef = database.getReference("chatrooms")
     private lateinit var chatRef : DatabaseReference
@@ -62,7 +71,55 @@ class ChatActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        imageView.setOnClickListener {
+            startFileChooser()
+            uploadFile()
+        }
+
         recibirMensajes()
+    }
+
+    private fun startFileChooser()
+    {
+        var i = Intent()
+        i.setType("image/*")
+        i.setAction(Intent.ACTION_GET_CONTENT)
+        startActivityForResult(Intent.createChooser(i, "Choose picture"), 111)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==111 && resultCode == Activity.RESULT_OK && data != null )
+        {
+            filepath =  data.data!!
+            var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filepath)
+            imageView.setImageBitmap(bitmap)
+        }
+    }
+
+    private fun uploadFile()
+    {
+        if(filepath!=null)
+        {
+            var pd=ProgressDialog(this);
+            pd.setTitle("Uploading")
+            pd.show()
+
+            var imageRef = FirebaseStorage.getInstance().reference.child("chatroom/pic.jpg")
+            imageRef.putFile(filepath)
+                .addOnSuccessListener { p0 ->
+                    pd.dismiss()
+                    Toast.makeText(applicationContext, "File Upload", Toast.LENGTH_LONG).show()
+                }
+                .addOnFailureListener{ p0 ->
+                    pd.dismiss()
+                    Toast.makeText(applicationContext, p0.message, Toast.LENGTH_LONG).show()
+                }
+                .addOnProgressListener { p0 ->
+                    var progress: Double = (100.0 * p0.bytesTransferred)/p0.totalByteCount
+                    pd.setMessage("Uploaded ${progress.toInt()}%")
+                }
+        }
     }
 
     private fun enviarMensaje(mensaje: Mensaje) {
