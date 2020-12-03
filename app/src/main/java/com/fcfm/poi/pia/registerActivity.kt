@@ -1,8 +1,12 @@
 package com.fcfm.poi.pia
 
+import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
@@ -10,11 +14,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register.*
+import java.net.URI
 import java.util.*
 
 class registerActivity : AppCompatActivity() {
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-
+    lateinit var  filepath: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,11 +29,13 @@ class registerActivity : AppCompatActivity() {
 
         btnRegistrarse.setOnClickListener {
             autenticarSign()
+            uploadFile()
         }
 
         btnFoto.setOnClickListener{
             startFileChooser()
         }
+
     }
 
     private fun startFileChooser(){
@@ -36,6 +43,38 @@ class registerActivity : AppCompatActivity() {
         i.setType("image/*")
         i.setAction(Intent.ACTION_GET_CONTENT)
         startActivityForResult(Intent.createChooser(i,"Escoge una imagen"),111)
+    }
+
+    private fun uploadFile(){
+        //Para subir archivos
+      /*  if(filepath!=null){
+            var pd = ProgressDialog(this)
+            pd.setTitle("Subiendo")
+            pd.show()
+
+            var imageRef= FirebaseStorage.getInstance().reference.child("images/pic.jpg")
+            imageRef.putFile(filepath)
+                .addOnSuccessListener{p0 =>
+                    pd.dismiss()
+                    Toast.makeText(applicationContext,"Archivo subido",Toast.LENGTH_LONG).show()
+                }
+                .addOnFailureListener{p0 =>
+                    pd.dismiss()
+                    Toast.makeText(applicationContext,p0.message,Toast.LENGTH_LONG ).show()
+                }
+                .addOnProgressListener{p0 =>
+                    var progress = (100.0*p0.bytesTransfered) / p0.totalByteCount
+                    pd.setMessage("Subiendo ${progress.toInt()}%)")
+                }
+        }*/
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==111 && resultCode== Activity.RESULT_OK && data!= null){
+            filepath = data.data!!
+            var  bitmap = MediaStore.Images.Media.getBitmap(contentResolver,filepath)
+            imgProfileR.setImageBitmap(bitmap)
+        }
     }
 
 
