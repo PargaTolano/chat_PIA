@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
 import com.fcfm.poi.pia.adaptadores.ChatAdapter
+import com.fcfm.poi.pia.modelos.Imagen
 import com.fcfm.poi.pia.modelos.Mensaje
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -93,6 +94,7 @@ class ChatActivity : AppCompatActivity() {
         {
             filepath =  data.data!!
             var bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filepath)
+            enviarFoto(Imagen("", bitmap))
             imageView.setImageBitmap(bitmap)
         }
     }
@@ -105,7 +107,7 @@ class ChatActivity : AppCompatActivity() {
             pd.setTitle("Uploading")
             pd.show()
 
-            var imageRef = FirebaseStorage.getInstance().reference.child("chatroom/pic.jpg")
+            var imageRef = FirebaseStorage.getInstance().reference.child("chatroom/"+chatRef+"pic.jpg")
             imageRef.putFile(filepath)
                 .addOnSuccessListener { p0 ->
                     pd.dismiss()
@@ -122,9 +124,17 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    private fun enviarFoto(imagen: Imagen) {
+
+        val mensajeFireBase = chatRef.push()
+        imagen.id = mensajeFireBase.key ?: ""
+
+        mensajeFireBase.setValue(imagen)
+    }
+
     private fun enviarMensaje(mensaje: Mensaje) {
 
-        val mensajeFireBase = chatroomRef.child("chats").push()
+        val mensajeFireBase = chatRef.push()
         mensaje.id = mensajeFireBase.key ?: ""
 
         mensajeFireBase.setValue(mensaje)

@@ -62,12 +62,12 @@ class dashBoardActivity : AppCompatActivity() {
 
         //rvDash.adapter = adaptador
 
-        btnCrearGrupo.setOnClickListener {
+        /*btnCrearGrupo.setOnClickListener {
             //val intentLogin = Intent(this,registerActivity::class.java)
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("nombreUsuario", nombreUsuario)
             startActivity(intent)
-        }
+        }*/
 
         btnTareas.setOnClickListener {
             //val intentLogin = Intent(this,registerActivity::class.java)

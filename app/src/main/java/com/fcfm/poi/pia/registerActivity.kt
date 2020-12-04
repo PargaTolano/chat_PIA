@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register.*
 import java.net.URI
@@ -47,26 +48,26 @@ class registerActivity : AppCompatActivity() {
 
     private fun uploadFile(){
         //Para subir archivos
-      /*  if(filepath!=null){
+        if(filepath!=null){
             var pd = ProgressDialog(this)
             pd.setTitle("Subiendo")
             pd.show()
 
-            var imageRef= FirebaseStorage.getInstance().reference.child("images/pic.jpg")
+            var imageRef= FirebaseStorage.getInstance().reference.child("images/foto")
             imageRef.putFile(filepath)
-                .addOnSuccessListener{p0 =>
+                .addOnSuccessListener{p0 ->
                     pd.dismiss()
                     Toast.makeText(applicationContext,"Archivo subido",Toast.LENGTH_LONG).show()
                 }
-                .addOnFailureListener{p0 =>
+                .addOnFailureListener{p0 ->
                     pd.dismiss()
                     Toast.makeText(applicationContext,p0.message,Toast.LENGTH_LONG ).show()
                 }
-                .addOnProgressListener{p0 =>
-                    var progress = (100.0*p0.bytesTransfered) / p0.totalByteCount
+                .addOnProgressListener{p0 ->
+                    var progress = (100.0*p0.bytesTransferred) / p0.totalByteCount
                     pd.setMessage("Subiendo ${progress.toInt()}%)")
                 }
-        }*/
+        }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
