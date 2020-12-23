@@ -188,7 +188,7 @@
 
             </LinearLayout>
 
-            <!--boton de asignar-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
-
+            <!--boton de asignar-->
             <Button
                 android:id="@+id/asignarBtn"
                 android:layout_width="match_parent"

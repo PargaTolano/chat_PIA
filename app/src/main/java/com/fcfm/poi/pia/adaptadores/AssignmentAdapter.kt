@@ -30,6 +30,7 @@ class AssignmentAdapter(private val assignmentList : MutableList<Assignment>) :
 
         return AssignmentAdapter.AssignmentViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.custom_item_mensaje, parent, false)
+            //No deberia ser assigment_list(nombre del elemento el layout), el que muestra la tarea?
         )
     }
 
