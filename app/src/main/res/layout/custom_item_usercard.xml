@@ -1,35 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/background_bubble">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/round_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/contenedorMensaje"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/ivPP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="200"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="222dp"
+                android:layout_height="wrap_content"
+                android:text="Nombre del integrante"
+                android:layout_weight="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tvUsuario"
-            android:layout_width="357dp"
+            android:id="@+id/tvLastMessage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="si"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Nombre" />
+            android:textColorHint="@color/cardview_dark_background"
+            android:textColorLink="@color/colorWhite" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
