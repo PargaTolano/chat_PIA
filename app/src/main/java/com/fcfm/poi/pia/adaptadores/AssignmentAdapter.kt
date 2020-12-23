@@ -21,8 +21,8 @@ class AssignmentAdapter(private val assignmentList : MutableList<Assignment>) :
             itemView.assignmentTitle.text = assignment.titulo
 
             val formatter = SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.getDefault())
-            val formatedDate = formatter.format(Date(assignment.timestamp as Long))
-            itemView.assignmentDueDate.text = formatedDate
+            val formattedDate = formatter.format(Date(assignment.timestamp as Long))
+            itemView.assignmentDueDate.text = formattedDate
         }
     }
 

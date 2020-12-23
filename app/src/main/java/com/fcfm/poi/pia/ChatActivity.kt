@@ -20,34 +20,33 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class ChatActivity : AppCompatActivity() {
 
-    private val listaMensajes = mutableListOf<Mensaje>()
-    private val adaptador = ChatAdapter(listaMensajes)
-    private lateinit var nombreUsuario: String
-    private lateinit var chatroomId : String
-    private lateinit var filepath : Uri
-    private val database  = FirebaseDatabase.getInstance()
-    private val chatroomRef = database.getReference("chatrooms")
-    private lateinit var chatRef : DatabaseReference
+    private val listaMensajes = mutableListOf<Mensaje>();
+    private val adaptador = ChatAdapter(listaMensajes);
+    private lateinit var nombreUsuario: String;
+    private lateinit var chatroomId : String;
+    private lateinit var filepath : Uri;
+    private val database  = FirebaseDatabase.getInstance();
+    private val chatroomRef = database.getReference("chatrooms");
+    private lateinit var chatRef : DatabaseReference;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        nombreUsuario = intent.getStringExtra("nombreUsuario") ?: "sin_nombre"
+        nombreUsuario = intent.getStringExtra("nombreUsuario") ?: "sin_nombre";
 
-        chatroomId  = intent.getStringExtra("chatroomId") ?: ""
+        chatroomId  = intent.getStringExtra("chatroomId") ?: "";
 
         if(chatroomId.isEmpty()){
-            val intent = Intent(this, dashBoardActivity::class.java)
-            startActivity(intent)
+            finish();
         }
 
         chatRef = chatroomRef.child(chatroomId).child("chats");
 
         nombreUChat.text = nombreUsuario;
 
-        rvChat.adapter = adaptador
+        rvChat.adapter = adaptador;
 
         btnEnviar.setOnClickListener {
 

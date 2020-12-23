@@ -24,6 +24,7 @@ class dashBoardActivity : AppCompatActivity() {
 
     private val chatroomList = mutableListOf<Chatroom>()
     private val adaptador : ChatroomAdapter = ChatroomAdapter(chatroomList)
+    private val adaptadorUsuarios :
     private lateinit var nombreUsuario: String
     private val database  = FirebaseDatabase.getInstance()
     private val chatRoomRef = database.getReference("chatrooms")
@@ -51,6 +52,8 @@ class dashBoardActivity : AppCompatActivity() {
                 2->{
                     tab.text="Chats"
                     tab.setIcon(R.drawable.ic_chat)
+
+
                 }
             }
         })
@@ -70,9 +73,14 @@ class dashBoardActivity : AppCompatActivity() {
         }*/
 
         btnTareas.setOnClickListener {
-            //val intentLogin = Intent(this,registerActivity::class.java)
-            val intent = Intent(this, CreacionTareas::class.java)
-            startActivity(intent)
+            val intent = Intent(this, CreacionTareas::class.java);
+            startActivity(intent);
+        }
+
+
+        btnCrearGrupo.setOnClickListener{
+            val intent = Intent(this, CrearGrupoActivity::class.java);
+            startActivity(intent);
         }
 
         recibirRegistrosChatoom()

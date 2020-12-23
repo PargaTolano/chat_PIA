@@ -26,8 +26,6 @@ class registerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        print(firebaseAuth.toString())
-
         btnRegistrarse.setOnClickListener {
             autenticarSign()
             uploadFile()
@@ -36,7 +34,6 @@ class registerActivity : AppCompatActivity() {
         btnFoto.setOnClickListener{
             startFileChooser()
         }
-
     }
 
     private fun startFileChooser(){
@@ -78,7 +75,6 @@ class registerActivity : AppCompatActivity() {
         }
     }
 
-
     private fun revisarAutenticacion()
     {
         if(firebaseAuth.currentUser != null)
@@ -116,7 +112,7 @@ class registerActivity : AppCompatActivity() {
 
                             val profileUpdates = UserProfileChangeRequest.Builder().setDisplayName(nickname).build()
 
-                            FirebaseAuth.getInstance().currentUser?.updateProfile(profileUpdates)
+                            firebaseAuth.currentUser?.updateProfile(profileUpdates)
                                 ?.addOnCompleteListener { task2 ->
                                     if(!task2.isSuccessful)
                                     {

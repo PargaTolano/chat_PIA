@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,7 +14,9 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.fcfm.poi.pia.modelos.Assignment
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 import kotlinx.android.synthetic.main.activity_creacion_tareas.*
 import java.sql.Timestamp
 import java.time.LocalDate
@@ -23,7 +26,6 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
-
 
     var day=0
     var month=0
@@ -37,13 +39,23 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
     var savehour=0
     var saveminute=0
 
+    private lateinit var chatroomId : String
+
     val database = FirebaseDatabase.getInstance();
-    val assignmentsRef = database.getReference("assignments");
-    var charoomRef     = database.getReference("chatrooms");
+    var chatroomRef     = database.getReference("chatrooms");
+    private lateinit var assignmentRef : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creacion_tareas)
+
+        chatroomId  = intent.getStringExtra("chatroomId") ?: ""
+
+        if(chatroomId.isEmpty()){
+            finish();
+        }
+
+        assignmentRef = chatroomRef.child(chatroomId).child("chats");
 
         pickDate()
         pickHour()
@@ -62,12 +74,10 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
                 val localDate = LocalDate.of(saveyear,savemonth,saveday)
                 val localTime = LocalTime.of(savehour, saveminute)
                 val localDT   = LocalDateTime.of(localDate!!, localTime!!)
-                val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-                val finalDate = formatter.format(localDT)
 
                 val pt = puntosText.text.toString().toInt()
 
-                createAssignment(Assignment("", tt, it, pt, finalDate))
+                createAssignment(Assignment("", tt, it, pt, localDT))
 
                 val intent = Intent(this, dashBoardActivity::class.java)
                 startActivity(intent)
@@ -76,7 +86,7 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
     }
 
     private fun createAssignment(assignment:Assignment){
-        val assignmentFirebase = assignmentsRef.push()
+        val assignmentFirebase = assignmentRef.push()
         assignment.id = assignmentFirebase.key ?: ""
         assignmentFirebase.setValue(assignment)
     }
