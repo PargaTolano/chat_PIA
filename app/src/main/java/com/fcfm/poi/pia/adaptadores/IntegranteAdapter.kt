@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fcfm.poi.pia.R
 import com.fcfm.poi.pia.modelos.Integrante
+import com.fcfm.poi.pia.modelos.Usuario
 import kotlinx.android.synthetic.main.custom_item_integrante.view.*
 import java.util.*
 
-class IntegranteAdapter(private  val integranteList : MutableList<Integrante>): RecyclerView.Adapter<IntegranteAdapter.IntegranteViewHolder>() {
+class IntegranteAdapter(private val userList : MutableList<Usuario>): RecyclerView.Adapter<IntegranteAdapter.IntegranteViewHolder>() {
     class IntegranteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        fun asignarInformacion(integrante: Integrante){
-            itemView.tvIntegrante.text = integrante.nombre
+        fun asignarInformacion(user: Usuario){
+            itemView.tvIntegrante.text = user.email;
         }
     }
 
@@ -23,9 +24,9 @@ class IntegranteAdapter(private  val integranteList : MutableList<Integrante>): 
     }
 
     override fun onBindViewHolder(holder: IntegranteViewHolder, position: Int) {
-        holder.asignarInformacion(integranteList[position])
+        holder.asignarInformacion(userList[position])
     }
 
-    override fun getItemCount(): Int = integranteList.size
+    override fun getItemCount(): Int = userList.size
 
 }

@@ -67,8 +67,9 @@ class ChatActivity : AppCompatActivity() {
 
         goBack.setOnClickListener {
             //val intentLogin = Intent(this,registerActivity::class.java)
-            val intent = Intent(this, dashBoardActivity::class.java)
-            startActivity(intent)
+            finish();
+            //val intent = Intent(this, dashBoardActivity::class.java)
+            //startActivity(intent)
         }
 
         imageView.setOnClickListener {
@@ -143,20 +144,20 @@ class ChatActivity : AppCompatActivity() {
         chatRef.addValueEventListener(object: ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                listaMensajes.clear()
+                listaMensajes.clear();
                 for (snap in snapshot.children)
                 {
-                    val mensaje: Mensaje = snap.getValue(Mensaje::class.java) as Mensaje
+                    val mensaje: Mensaje = snap.getValue(Mensaje::class.java) as Mensaje;
 
                     if(mensaje.de == nombreUsuario){
-                        mensaje.esMio = true
+                        mensaje.esMio = true;
                     }
 
-                    listaMensajes.add(mensaje)
+                    listaMensajes.add(mensaje);
                 }
 
                 if(listaMensajes.size > 0) {
-                    adaptador.notifyDataSetChanged()
+                    adaptador.notifyDataSetChanged();
                 }
             }
 

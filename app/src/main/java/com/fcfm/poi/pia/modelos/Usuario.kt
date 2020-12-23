@@ -1,4 +1,7 @@
 package com.fcfm.poi.pia.modelos
 
-class Usuario {
+class Usuario (
+    public var uid   : String,
+    public var email : String
+){
 }

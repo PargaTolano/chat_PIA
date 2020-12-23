@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TableLayout
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.fcfm.poi.pia.adaptadores.ChatroomAdapter
@@ -24,7 +25,7 @@ class dashBoardActivity : AppCompatActivity() {
 
     private val chatroomList = mutableListOf<Chatroom>()
     private val adaptador : ChatroomAdapter = ChatroomAdapter(chatroomList)
-    private val adaptadorUsuarios :
+    //private val adaptadorUsuarios :
     private lateinit var nombreUsuario: String
     private val database  = FirebaseDatabase.getInstance()
     private val chatRoomRef = database.getReference("chatrooms")
@@ -62,6 +63,12 @@ class dashBoardActivity : AppCompatActivity() {
         nombreUsuario = intent.getStringExtra("nombreUsuario") ?: "sin_nombre"
 
         tv_nameUser.text = nombreUsuario
+
+        btnChatDemo.setOnClickListener{
+            Toast.makeText(this, "Clickeado prro", Toast.LENGTH_SHORT).show();
+            val intent = Intent( this, ChatActivity::class.java);
+            startActivity(intent);
+        }
 
         //rvDash.adapter = adaptador
 

@@ -113,6 +113,19 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/btnChatDemo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/colorItem2"
+                android:drawableStart="@drawable/ic_assigment"
+                android:drawableTint="@color/colorWhite"
+                android:text="Chat Testing"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+            <Button
                 android:id="@+id/btnTareas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
