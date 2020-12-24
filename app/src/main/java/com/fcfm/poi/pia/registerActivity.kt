@@ -86,9 +86,9 @@ class registerActivity : AppCompatActivity() {
         if(firebaseAuth.currentUser != null)
         {
 
-            val dbUser = userRef.push();
+            val dbUser = userRef.child(firebaseAuth.currentUser!!.uid);
 
-            val user = Usuario(firebaseAuth.currentUser?.uid!! , correo) ;
+            val user = Usuario(firebaseAuth.currentUser!!.uid , correo) ;
 
             dbUser.setValue(user);
             /*

@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_bubble"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="3dp">
 
         <TextView
             android:id="@+id/tvUsuario"
@@ -21,6 +22,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorWhite"
+            android:textSize="10sp"
             tools:text="Lisa" />
 
         <TextView
@@ -31,6 +33,7 @@
             android:maxEms="20"
             android:minEms="10"
             android:textColor="@color/colorWhite"
+            android:textSize="16sp"
             tools:text="Hola ¿cómo estás?" />
 
         <View
@@ -48,6 +51,7 @@
             android:gravity="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/colorChatLetter"
+            android:textSize="8sp"
             tools:text="22/10/2010 - 10:00 P.M." />
     </LinearLayout>
 

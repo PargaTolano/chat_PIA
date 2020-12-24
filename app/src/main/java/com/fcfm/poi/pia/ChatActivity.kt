@@ -13,10 +13,12 @@ import android.widget.Toast
 import com.fcfm.poi.pia.adaptadores.ChatAdapter
 import com.fcfm.poi.pia.modelos.Imagen
 import com.fcfm.poi.pia.modelos.Mensaje
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_login.*
+import java.net.URI
 
 class ChatActivity : AppCompatActivity() {
 
@@ -24,10 +26,12 @@ class ChatActivity : AppCompatActivity() {
     private val adaptador = ChatAdapter(listaMensajes);
     private lateinit var nombreUsuario: String;
     private lateinit var chatroomId : String;
-    private lateinit var filepath : Uri;
+    private var filepath : Uri = Uri.EMPTY;
     private val database  = FirebaseDatabase.getInstance();
     private val chatroomRef = database.getReference("chatrooms");
     private lateinit var chatRef : DatabaseReference;
+
+    private val currUser = FirebaseAuth.getInstance().currentUser;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +46,7 @@ class ChatActivity : AppCompatActivity() {
             finish();
         }
 
-        chatRef = chatroomRef.child(chatroomId).child("chats");
+        chatRef = chatroomRef.child("${chatroomId}/chat");
 
         nombreUChat.text = nombreUsuario;
 
@@ -55,7 +59,7 @@ class ChatActivity : AppCompatActivity() {
 
                 txtMensaje.text.clear()
 
-                enviarMensaje(Mensaje("", mensaje, nombreUsuario, ServerValue.TIMESTAMP))
+                enviarMensaje(Mensaje("", mensaje, currUser?.email!! , ServerValue.TIMESTAMP))
             }
         }
 
@@ -101,7 +105,7 @@ class ChatActivity : AppCompatActivity() {
 
     private fun uploadFile()
     {
-        if(filepath!=null)
+        if(filepath!=Uri.EMPTY)
         {
             var pd=ProgressDialog(this);
             pd.setTitle("Uploading")
@@ -149,7 +153,7 @@ class ChatActivity : AppCompatActivity() {
                 {
                     val mensaje: Mensaje = snap.getValue(Mensaje::class.java) as Mensaje;
 
-                    if(mensaje.de == nombreUsuario){
+                    if(mensaje.de == currUser?.email!!){
                         mensaje.esMio = true;
                     }
 
