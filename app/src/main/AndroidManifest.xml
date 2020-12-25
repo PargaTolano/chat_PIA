@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CrearGrupoActivity"></activity>
+        <activity android:name=".activity_correo"></activity>
+        <activity android:name=".CrearGrupoActivity" />
         <activity android:name=".dashBoardActivity" />
         <activity android:name=".SeeAssignmentsActivity" />
         <activity android:name=".MainActivity" />
