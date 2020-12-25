@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.fcfm.poi.pia.ChatActivity
 import com.fcfm.poi.pia.R
+import com.fcfm.poi.pia.enums.ChatroomType
 import com.fcfm.poi.pia.modelos.Chatroom
 import com.fcfm.poi.pia.modelos.Usuario
 import com.google.firebase.auth.FirebaseAuth
@@ -47,15 +48,17 @@ class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerV
 
             val arr = chatroom.participantes;
 
-            for( a in arr){
-                if(a == uid)
-                    return chatroom;
+            if(chatroom.type == ChatroomType.DirectMessage){
+                for( a in arr){
+                    if(a == uid)
+                        return chatroom;
+                }
             }
         }
         return null;
     }
 
-    public fun initializeUserChatroomRef(){
+    fun initializeUserChatroomRef(){
         val myUid = firebaseAuth.currentUser!!.uid!!;
         userChatroomRef = db.getReference("users/${myUid}/chatrooms");
         userChatroomRef.addValueEventListener(object: ValueEventListener{
@@ -78,42 +81,41 @@ class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerV
     }
 
     private fun clickHandler(itemView : View, item : Usuario){
-        val intent = Intent(itemView.context, ChatActivity::class.java).apply {
-            val uid = itemView.tvUID.text.toString();
+        val uid = itemView.tvUID.text.toString();
 
-            val otherUserChatroomRef = db.getReference("users/${uid}/chatrooms");
+        val otherUserChatroomRef = db.getReference("users/${uid}/chatrooms");
 
-            var found = buscarUsuario(chatroomList.toList(), uid);
+        var found = buscarUsuario(chatroomList.toList(), uid);
 
-            //chat nuevo
-            if(found == null){
-                val newChatroom = chatroomRef.push();
+        //chat nuevo
+        if(found == null){
+            val newChatroom = chatroomRef.push();
 
-                found = Chatroom();
-                found.id = newChatroom.key!!;
-                found.participantes.add(firebaseAuth.currentUser!!.uid);
-                found.participantes.add(uid);
+            found = Chatroom();
+            found.id = newChatroom.key!!;
+            found.participantes.add(firebaseAuth.currentUser!!.uid);
+            found.participantes.add(uid);
+            found.type = ChatroomType.DirectMessage;
 
-                //Agregar a la coleccion de chatrooms
-                newChatroom.setValue(found);
-                //Agregar a la coleccion de chatrooms en el usuario
-                val newChatroomMyUser = userChatroomRef.child(newChatroom.key!!);
-                newChatroomMyUser.setValue(found);
-                //Agregar a la coleccion de chatrooms del otro usuario
-                val newChatroomOtherUser = otherUserChatroomRef.child(newChatroom.key!!);
-                newChatroomOtherUser.setValue(found);
-            }
-            //ya existente
-            else{
-            }
-
-            val intent = Intent(itemView.context, ChatActivity::class.java).apply {
-                putExtra("chatroomId", found.id);
-                putExtra("nombreUsuario", itemView.tvEmail.text.toString());
-            }
-
-            startActivity(itemView.context, intent, null);
+            //Agregar a la coleccion de chatrooms
+            newChatroom.setValue(found);
+            //Agregar a la coleccion de chatrooms en el usuario
+            val newChatroomMyUser = userChatroomRef.child(newChatroom.key!!);
+            newChatroomMyUser.setValue(found);
+            //Agregar a la coleccion de chatrooms del otro usuario
+            val newChatroomOtherUser = otherUserChatroomRef.child(newChatroom.key!!);
+            newChatroomOtherUser.setValue(found);
         }
+        //ya existente
+        else{
+        }
+
+        val intent = Intent(itemView.context, ChatActivity::class.java).apply {
+            putExtra("chatroomId", found.id);
+            putExtra("nombreUsuario", itemView.tvEmail.text.toString());
+        }
+
+        startActivity(itemView.context, intent, null);
     }
 
     override fun onBindViewHolder(holder: UsuarioCardViewHolder, position: Int) {

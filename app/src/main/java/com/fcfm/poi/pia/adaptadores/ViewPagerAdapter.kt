@@ -8,6 +8,8 @@ import com.fcfm.poi.pia.DemoObjectFragment
 
 class ViewPagerAdapter (fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
 
+    public val fragmentList = mutableListOf<Fragment>()
+
     //Constante a nivel de clase
     companion object{
         private  const val ARG_OBJECT = "object"
@@ -17,8 +19,21 @@ class ViewPagerAdapter (fragment: FragmentActivity) : FragmentStateAdapter(fragm
     override fun getItemCount(): Int  = 3
 
     override fun createFragment(position: Int): Fragment {
-        //Vamos a crear el fragmente
+        //Vamos a crear el fragmento
         val fragment =  DemoObjectFragment()
+
+        when(position){
+            0->{
+                fragment.recibirRegistrosChatoom()
+            }
+            1->{
+                fragment.recibirRegistrosTareas()
+            }
+            2->{
+                fragment.recibirRegistrosUsuarios()
+
+            }
+        }
 
         //Tenemos 2 formas de pasar información a ese fragment
         //Una pasar los datos por medio de un constructor que no es recomendable
@@ -26,9 +41,10 @@ class ViewPagerAdapter (fragment: FragmentActivity) : FragmentStateAdapter(fragm
         //mandar a cada instancia
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
-            putInt(ARG_OBJECT, position + 1)
+            putInt(ARG_OBJECT, position + 1);
 
         }
+
         return fragment
 
         //En caso de que lo fragments sean diferentes

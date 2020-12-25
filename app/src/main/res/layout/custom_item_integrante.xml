@@ -12,26 +12,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/round_bg"
+        android:background="@color/deepPurple"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="5dp">
 
         <TextView
             android:id="@+id/tvEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="fill_vertical"
             android:text="Nombre del integrante"
-            android:textSize="20dp"
-            android:textColor="@color/colorWhite"/>
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnAddAtGroup"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_weight="5"
             android:background="@color/colorItem2"
             android:text="Agregar"
             android:textColor="@color/colorWhite" />
+
+        <CheckBox
+            android:id="@+id/cbAgregado"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:scrollHorizontally="false"
+            android:textAlignment="center"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tvUID"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="fill_vertical"
+            android:text="UID"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:visibility="gone"/>
+
     </LinearLayout>
 
 </FrameLayout>

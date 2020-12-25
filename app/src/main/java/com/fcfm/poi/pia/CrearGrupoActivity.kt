@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.fcfm.poi.pia.adaptadores.ChatAdapter
 import com.fcfm.poi.pia.adaptadores.IntegranteAdapter
+import com.fcfm.poi.pia.enums.ChatroomType
+import com.fcfm.poi.pia.modelos.Chatroom
 import com.fcfm.poi.pia.modelos.Integrante
 import com.fcfm.poi.pia.modelos.Mensaje
 import com.fcfm.poi.pia.modelos.Usuario
@@ -20,11 +22,15 @@ class CrearGrupoActivity : AppCompatActivity() {
     private lateinit var firebaseAuth : FirebaseAuth;
 
     private val listaIntegrantes = mutableListOf<Usuario>();
-    private val adaptador = IntegranteAdapter(listaIntegrantes);
+    private val adaptador = IntegranteAdapter(listaIntegrantes,this);
 
     private val db = FirebaseDatabase.getInstance();
+    private val currUser = FirebaseAuth.getInstance().currentUser;
 
     private val userRef = db.getReference("users");
+    private val chatroomsRef = db.getReference("chatrooms");
+
+    public var integrantes : MutableList<String> = mutableListOf(currUser!!.uid);
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -35,6 +41,37 @@ class CrearGrupoActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance();
 
         initUsers();
+
+        crearGrupoBTN.setOnClickListener{
+            if(grupoNombre.text.isNotEmpty() && grupoNombre.text.isNotBlank()){
+                createGroupChatroom();
+                finish();
+            }
+        }
+    }
+
+    private fun createGroupChatroom(){
+        val newChatroom = chatroomsRef.push();
+
+        val chatroomInfo = Chatroom(
+            newChatroom.key!!,
+            integrantes,
+            grupoNombre.text.toString(),
+            ChatroomType.Group
+        );
+
+        newChatroom.setValue(chatroomInfo);
+
+        addRoomToUsers(integrantes, chatroomInfo);
+    }
+
+    private fun addRoomToUsers(userList : List<String>, chatroom: Chatroom){
+        for(user in userList){
+            val userChatsRef =userRef.child("${user}/chatrooms");
+
+            val newChatroom = userChatsRef.push();
+            newChatroom.setValue(chatroom);
+        }
     }
 
     private fun initUsers() {
@@ -49,12 +86,9 @@ class CrearGrupoActivity : AppCompatActivity() {
                 listaIntegrantes.clear();
                 for(snap in snapshot.children){
 
-                    val email : String = snap.child("email").value.toString();
-                    val uid : String = snap.child("uid").value.toString();
+                    val user : Usuario = snap.getValue(Usuario::class.java) as Usuario;
 
-                    val user : Usuario = Usuario(uid,email);
-
-                    if (firebaseAuth.currentUser?.uid!! != uid){
+                    if (firebaseAuth.currentUser?.uid!! != user.uid){
                         listaIntegrantes.add(user);
                     }
                 }
