@@ -1,21 +1,25 @@
 package com.fcfm.poi.pia.adaptadores
 
+import android.R.color
 import android.content.Intent
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.fcfm.poi.pia.ChatActivity
 import com.fcfm.poi.pia.R
 import com.fcfm.poi.pia.enums.ChatroomType
+import com.fcfm.poi.pia.enums.UserConectionState
 import com.fcfm.poi.pia.modelos.Chatroom
 import com.fcfm.poi.pia.modelos.Usuario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.custom_item_usercard.view.*
-import java.lang.ref.Reference
-import kotlin.jvm.internal.Ref
+
 
 class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerView.Adapter<UsuarioCardAdapter.UsuarioCardViewHolder>() {
 
@@ -32,6 +36,41 @@ class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerV
         fun asignarInformacion(user: Usuario){
             itemView.tvEmail.text = user.email;
             itemView.tvUID.text = user.uid;
+
+            if(user.userConectionState == UserConectionState.Conected){
+                itemView.tvConnectedState.text = "Connected";
+                val color = getColor(itemView.context, R.color.colorItem3);
+                itemView.tvConnectedState.setTextColor(color);
+                val drawables = itemView.tvConnectedState.compoundDrawables;
+
+                for (drawable in drawables) {
+                    if (drawable != null) {
+                        drawable.colorFilter = PorterDuffColorFilter(
+                            getColor(
+                                itemView.context,
+                                R.color.colorItem3
+                            ), PorterDuff.Mode.SRC_IN
+                        )
+                    }
+                }
+            }else{
+                itemView.tvConnectedState.text = "Disconnected";
+                val color = getColor(itemView.context, R.color.colorItem1);
+                itemView.tvConnectedState.setTextColor(color);
+                val drawables = itemView.tvConnectedState.compoundDrawables;
+
+                for (drawable in drawables) {
+                    if (drawable != null) {
+                        drawable.colorFilter = PorterDuffColorFilter(
+                            getColor(
+                                itemView.context,
+                                R.color.colorItem1
+                            ), PorterDuff.Mode.SRC_IN
+                        )
+                    }
+                }
+            }
+
         }
     }
 

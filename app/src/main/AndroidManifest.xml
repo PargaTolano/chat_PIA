@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity_correo"></activity>
+        <service
+            android:name=".servicios.MyService"
+            android:stopWithTask="false"/>
+
+        <activity android:name=".activity_correo" />
         <activity android:name=".CrearGrupoActivity" />
         <activity android:name=".dashBoardActivity" />
         <activity android:name=".SeeAssignmentsActivity" />

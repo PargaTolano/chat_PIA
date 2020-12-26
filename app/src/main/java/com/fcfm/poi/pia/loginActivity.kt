@@ -6,17 +6,44 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import com.fcfm.poi.pia.enums.UserConectionState
+import com.fcfm.poi.pia.modelos.Usuario
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
 
 
 class loginActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
+
+    private val db = FirebaseDatabase.getInstance();
+    private val userRef = db.getReference("users").apply {
+        addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                users.clear();
+
+                for(snap in snapshot.children){
+                    val user = snap.getValue(Usuario::class.java) as Usuario;
+
+                    users.add(user);
+                }
+            }
+        })
+    };
+
+    private val users = mutableListOf<Usuario>();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +70,16 @@ class loginActivity : AppCompatActivity() {
             /*val intentChat = Intent(this, ChatActivity::class.java)
             intentChat.putExtra("nombreUsuario", txtUsuario.text.toString())*/
 
-            val intentDash = Intent(this, dashBoardActivity::class.java)
-            intentDash.putExtra("nombreUsuario", txtUsuario.text.toString())
+            val intentDash = Intent(this, dashBoardActivity::class.java).apply {
+                putExtra("nombreUsuario", txtUsuario.text.toString());
+            }
+
+            val dbUser = userRef.child(firebaseAuth.currentUser!!.uid.toString());
+
+            val currUserInfo = users.find{user -> user.uid == dbUser.key!!};
+            currUserInfo?.userConectionState = UserConectionState.Conected;
+
+            dbUser.setValue(currUserInfo);
 
             startActivity(intentDash)
         }

@@ -42,7 +42,7 @@
             android:id="@+id/tvUID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ivPP"
+            android:layout_below="@id/tvConnectedState"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
@@ -54,6 +54,20 @@
             android:textColorLink="@color/colorWhite"
             android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/tvConnectedState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivPP"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="5dp"
+            android:text="Connected State"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/cardview_dark_background"
+            android:textColorLink="@color/colorWhite"
+            app:drawableTint="@color/colorWhite"
+            app:drawableStartCompat="@drawable/ic_user" />
 
     </RelativeLayout>
 

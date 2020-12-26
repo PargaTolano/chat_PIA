@@ -15,6 +15,7 @@ import com.fcfm.poi.pia.adaptadores.AssignmentAdapter
 import com.fcfm.poi.pia.adaptadores.ChatroomAdapter
 import com.fcfm.poi.pia.adaptadores.UsuarioCardAdapter
 import com.fcfm.poi.pia.adaptadores.ViewPagerAdapter
+import com.fcfm.poi.pia.enums.UserConectionState
 import com.fcfm.poi.pia.modelos.Assignment
 import com.fcfm.poi.pia.modelos.Chatroom
 import com.fcfm.poi.pia.modelos.Usuario
@@ -40,6 +41,26 @@ class dashBoardActivity : AppCompatActivity() {
     private lateinit var rv_dash : RecyclerView;
 
     private lateinit var pagerMain : ViewPager2;
+
+    private val currUser = FirebaseAuth.getInstance().currentUser;
+
+    private val userRef = FirebaseDatabase.getInstance().getReference("users").apply {
+        addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                users.clear();
+                for(snap in snapshot.children){
+                    val user = snap.getValue(Usuario::class.java) as Usuario;
+                    users.add(user);
+                }
+            }
+
+        })
+    }
+    private  val users = mutableListOf<Usuario>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +102,16 @@ class dashBoardActivity : AppCompatActivity() {
             val intent = Intent(this, CrearGrupoActivity::class.java);
             startActivity(intent);
         }
+    }
+
+    override fun onStop() {
+        super.onStop();
+
+        userRef
+            .child(currUser!!.uid)
+            .setValue(
+                users.find{user-> user.uid == currUser!!.uid}.apply { this!!.userConectionState = UserConectionState.Absent }
+            );
     }
 
 
