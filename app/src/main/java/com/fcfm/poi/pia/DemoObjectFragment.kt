@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.fcfm.poi.pia.adaptadores.AssignmentAdapter
 import com.fcfm.poi.pia.adaptadores.ChatroomAdapter
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_demo_object.*
 /**
  * A simple [Fragment] subclass.
  */
-class DemoObjectFragment : Fragment() {
+class DemoObjectFragment(private val activity : dashBoardActivity) : Fragment() {
 
     private val db  = FirebaseDatabase.getInstance()
 
@@ -54,6 +55,7 @@ class DemoObjectFragment : Fragment() {
     }
 
     //Va apesar el argumento del adaptador
+    val myUsers = activity.users;
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Esto es un get si contiene el argumento tal
@@ -73,11 +75,9 @@ class DemoObjectFragment : Fragment() {
                 }
                 3->{
                     tv_nombre.text = "Chats";
-                    userAdapter.initializeUserChatroomRef();
-                    rv_view.adapter = userAdapter;
+                    rv_view.adapter = UsuarioCardAdapter(myUsers).apply { initializeUserChatroomRef() };
                 }
             }
-
         }
     }
 

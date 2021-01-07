@@ -30,7 +30,8 @@ class IntegranteAdapter(private val userList : MutableList<Usuario>, private var
 
         if(c){
 
-            val i = activity.integrantes.indexOf(item.uid);
+            val user = activity.integrantes.find{ it.uid == itemView.tvUID.text.toString()};
+            val i = activity.integrantes.indexOf(user);
             activity.integrantes.removeAt(i);
 
             itemView.cbAgregado.isChecked = false;
@@ -42,13 +43,22 @@ class IntegranteAdapter(private val userList : MutableList<Usuario>, private var
         else{
 
             val userUID : String = itemView.tvUID.text.toString();
-            activity.integrantes.add(userUID);
+            val user = activity.listaIntegrantes.find { user-> user.uid == userUID };
 
-            itemView.cbAgregado.isChecked = true;
+            if( user != null){
+                activity.mapaIntegrantes[user.uid] = user.email;
 
-            //Cambiar Estilo
-            itemView.btnAddAtGroup.background =  itemView.context.resources.getDrawable(R.color.colorItem1, null);
-            itemView.btnAddAtGroup.text = "ELIMINAR";
+                itemView.cbAgregado.isChecked = true;
+
+                //Cambiar Estilo
+                itemView.btnAddAtGroup.background =  itemView.context.resources.getDrawable(R.color.colorItem1, null);
+                itemView.btnAddAtGroup.text = "ELIMINAR";
+            }
+            else
+            {
+                throw Error("Usuario no existente en lista");
+            }
+
         }
     }
 

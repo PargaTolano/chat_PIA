@@ -2,25 +2,24 @@ package com.fcfm.poi.pia
 
 import android.app.Activity
 import android.app.ProgressDialog
-import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
+import android.media.ToneGenerator
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.fcfm.poi.pia.adaptadores.ChatAdapter
 import com.fcfm.poi.pia.modelos.Imagen
 import com.fcfm.poi.pia.modelos.Mensaje
+import com.fcfm.poi.pia.modelos.Usuario
 import com.fcfm.poi.pia.utils.MessageEncrypter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.activity_login.*
-import java.net.URI
-import kotlin.system.measureNanoTime
+
 
 class ChatActivity : AppCompatActivity() {
 
@@ -29,9 +28,14 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var nombreUsuario: String;
     private lateinit var chatroomId : String;
     private var filepath : Uri = Uri.EMPTY;
+
     private val database  = FirebaseDatabase.getInstance();
     private val chatroomRef = database.getReference("chatrooms");
+    private lateinit var currentChatroomRef : DatabaseReference;
     private lateinit var chatRef : DatabaseReference;
+    private lateinit var usersInChatRef : DatabaseReference;
+
+    private val usersInChat = mutableListOf<Usuario>();
 
     private val currUser = FirebaseAuth.getInstance().currentUser;
     private val encrypter = MessageEncrypter("myPass");
@@ -49,7 +53,38 @@ class ChatActivity : AppCompatActivity() {
             finish();
         }
 
-        chatRef = chatroomRef.child("${chatroomId}/chat");
+        currentChatroomRef = chatroomRef.child(chatroomId).apply {
+            addValueEventListener(object: ValueEventListener{
+                override fun onCancelled(error: DatabaseError) {
+                    System.out.println("Chat Activity : error on db connection");
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    //userMap.clear()
+                    //for(snap in snapshot.children){
+                    //    val p : Pair<String, String> = snap.getValue(Pair::class.java) as Pair<String,String>;
+                    //    userMap[p.first] = p.second;
+                    //}
+                }
+
+            })
+        };
+        chatRef = currentChatroomRef.child("chat");
+        usersInChatRef = chatroomRef.child("participantes").apply {
+            addValueEventListener(object: ValueEventListener{
+                override fun onCancelled(error: DatabaseError) {
+                    System.out.println("Chat Activity : error on db connection");
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    usersInChat.clear()
+                    for(snap in snapshot.children){
+                        val user : Usuario = snap.getValue(Usuario::class.java) as Usuario;
+                        usersInChat.add(user);
+                    }
+                }
+            });
+        }
 
         nombreUChat.text = nombreUsuario;
 
@@ -73,17 +108,23 @@ class ChatActivity : AppCompatActivity() {
         }
 
         goBack.setOnClickListener {
-            //val intentLogin = Intent(this,registerActivity::class.java)
             finish();
-            //val intent = Intent(this, dashBoardActivity::class.java)
-            //startActivity(intent)
         }
 
         imageView.setOnClickListener {
-            startFileChooser()
-            uploadFile()
+            startFileChooser();
+            uploadFile();
         }
 
+        emailUser.setOnClickListener{
+
+            val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+            toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+            /*val intent = Intent(this, activity_correo::class.java).apply {
+                putExtra("usuarios", usersInChat.map { it.email }.toTypedArray());
+            };
+            startActivity(intent)*/
+        }
         recibirMensajes()
     }
 

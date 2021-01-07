@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:textAlignment="center"
     tools:context=".ChatActivity">
 
     <View
@@ -16,75 +17,97 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="90dp"
         android:background="@drawable/background_topchat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageView
+        android:id="@+id/goBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_goback"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/profileUImage"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <ImageView
-            android:id="@+id/goBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_goback"
-            android:layout_centerVertical="true"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/profileUImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/xolologo"
-            android:layout_toRightOf="@id/goBack"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
-        <TextView
-            android:id="@+id/nombreUChat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nombre Usuario"
-            android:textSize="20sp"
-            android:layout_toRightOf="@id/profileUImage"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/colorAccent"/>
-        <ImageView
-            android:id="@+id/callUser"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_call"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/nombreUChat"
-            android:layout_marginLeft="10dp"/>
-        <ImageView
-            android:id="@+id/videoUser"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_video"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/callUser"
-            android:layout_marginLeft="10dp"/>
-        <ImageView
-            android:id="@+id/tarea"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_assigment"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/videoUser"
-            android:layout_marginLeft="10dp"/>
+    <ImageView
+        android:id="@+id/profileUImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/xolologo"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/nombreUChat"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/goBack"
+        app:layout_constraintTop_toTopOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/nombreUChat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:paddingHorizontal="10sp"
+        android:text="Nombre Usuario"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/emailUser"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/profileUImage"
+        app:layout_constraintTop_toTopOf="@+id/view2" />
 
 
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/emailUser"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/nombreUChat"
+        android:src="@drawable/ic_clip"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/videoUser"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/nombreUChat"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#80000000" />
+
+    <ImageView
+        android:id="@+id/videoUser"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_video"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/tarea"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/emailUser"
+        app:layout_constraintTop_toTopOf="@+id/view2" />
+
+    <ImageView
+        android:id="@+id/tarea"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_assigment"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/videoUser"
+        app:layout_constraintTop_toTopOf="@+id/view2" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChat"

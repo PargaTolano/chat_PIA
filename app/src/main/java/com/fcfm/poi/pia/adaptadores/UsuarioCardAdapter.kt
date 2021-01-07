@@ -27,6 +27,7 @@ class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerV
     private val db = FirebaseDatabase.getInstance();
     private val chatroomRef = db.getReference("chatrooms");
     private val userRef     = db.getReference("users");
+    private lateinit var otherRef : DatabaseReference;
     private lateinit var userChatroomRef : DatabaseReference;
     private lateinit var otherUserChatroomRef : DatabaseReference;
 
@@ -85,7 +86,7 @@ class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerV
     private fun buscarUsuario(chatroomList : List<Chatroom>, uid : String) : Chatroom?{
         for(chatroom in chatroomList){
 
-            val arr = chatroom.participantes;
+            val arr = chatroom.participantes.keys.toTypedArray();
 
             if(chatroom.type == ChatroomType.DirectMessage){
                 for( a in arr){
@@ -102,7 +103,7 @@ class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerV
         userChatroomRef = db.getReference("users/${myUid}/chatrooms");
         userChatroomRef.addValueEventListener(object: ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                //TODO("Not yet implemented")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -116,7 +117,7 @@ class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerV
                     chatroomList.add(chatroom);
                 }
             }
-        })
+        });
     }
 
     private fun clickHandler(itemView : View, item : Usuario){
@@ -129,11 +130,12 @@ class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerV
         //chat nuevo
         if(found == null){
             val newChatroom = chatroomRef.push();
+            val nUID : String = firebaseAuth.currentUser!!.uid;
 
             found = Chatroom();
             found.id = newChatroom.key!!;
-            found.participantes.add(firebaseAuth.currentUser!!.uid);
-            found.participantes.add(uid);
+            found.participantes[nUID] = userList.find{it.uid == nUID}!!.email!!;
+            found.participantes[uid] = userList.find{it.uid == nUID}!!.email!!;
             found.type = ChatroomType.DirectMessage;
 
             //Agregar a la coleccion de chatrooms

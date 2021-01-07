@@ -5,18 +5,9 @@ import android.os.Bundle
 import android.view.ActionMode
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
-import androidx.core.view.get
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.adapter.FragmentViewHolder
 import androidx.viewpager2.widget.ViewPager2
-import com.fcfm.poi.pia.adaptadores.AssignmentAdapter
-import com.fcfm.poi.pia.adaptadores.ChatroomAdapter
-import com.fcfm.poi.pia.adaptadores.UsuarioCardAdapter
 import com.fcfm.poi.pia.adaptadores.ViewPagerAdapter
-import com.fcfm.poi.pia.enums.UserConectionState
 import com.fcfm.poi.pia.modelos.Assignment
 import com.fcfm.poi.pia.modelos.Chatroom
 import com.fcfm.poi.pia.modelos.Usuario
@@ -28,8 +19,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_dash_board.*
-import kotlinx.android.synthetic.main.fragment_demo_object.*
-import kotlinx.android.synthetic.main.fragment_demo_object.view.*
 
 class dashBoardActivity : AppCompatActivity() {
 
@@ -47,10 +36,42 @@ class dashBoardActivity : AppCompatActivity() {
 
     private val currUser = FirebaseAuth.getInstance().currentUser;
 
+    private val chatroomRef = FirebaseDatabase.getInstance().getReference("users").apply {
+        addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                //TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                chatrooms.clear();
+                for(snap in snapshot.children){
+                    val chatroom = snap.getValue(Chatroom::class.java) as Chatroom;
+                    chatrooms.add(chatroom);
+                }
+            }
+
+        })
+    };
+    private val assignmentRef = FirebaseDatabase.getInstance().getReference("users").apply {
+        addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                //TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                assignments.clear();
+                for(snap in snapshot.children){
+                    val assignment = snap.getValue(Assignment::class.java) as Assignment;
+                    assignments.add(assignment);
+                }
+            }
+
+        })
+    };
     private val userRef = FirebaseDatabase.getInstance().getReference("users").apply {
         addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                //TODO("Not yet implemented")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -62,8 +83,11 @@ class dashBoardActivity : AppCompatActivity() {
             }
 
         })
-    }
-    private  val users = mutableListOf<Usuario>()
+    };
+
+    val chatrooms = mutableListOf<Chatroom>();
+    val assignments = mutableListOf<Assignment>();
+    val users = mutableListOf<Usuario>();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +119,13 @@ class dashBoardActivity : AppCompatActivity() {
         nombreUsuario = intent.getStringExtra("nombreUsuario") ?: "sin_nombre";
 
         tv_nameUser.text = nombreUsuario;
+
+        btnCorreo.setOnClickListener{
+            val intent = Intent(this, activity_correo::class.java).apply {
+                putExtra("usuarios", arrayOf("parga@test.com"));
+            };
+            startActivity(intent);
+        }
 
         btnTareas.setOnClickListener {
             val intent = Intent(this, CreacionTareas::class.java);

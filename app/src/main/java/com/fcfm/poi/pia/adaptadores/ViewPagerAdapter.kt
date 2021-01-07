@@ -5,8 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.fcfm.poi.pia.DemoObjectFragment
+import com.fcfm.poi.pia.dashBoardActivity
 
-class ViewPagerAdapter (fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
+class ViewPagerAdapter (val fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
 
     public val fragmentList = mutableListOf<Fragment>()
 
@@ -20,38 +21,24 @@ class ViewPagerAdapter (fragment: FragmentActivity) : FragmentStateAdapter(fragm
 
     override fun createFragment(position: Int): Fragment {
         //Vamos a crear el fragmento
-        val fragment =  DemoObjectFragment()
+        val fragment =  DemoObjectFragment(this.fragment as dashBoardActivity);
 
         when(position){
             0->{
-                fragment.recibirRegistrosChatoom()
+                fragment.recibirRegistrosChatoom();
             }
             1->{
-                fragment.recibirRegistrosTareas()
+                fragment.recibirRegistrosTareas();
             }
             2->{
-                fragment.recibirRegistrosUsuarios()
-
+                fragment.recibirRegistrosUsuarios();
             }
         }
 
-        //Tenemos 2 formas de pasar información a ese fragment
-        //Una pasar los datos por medio de un constructor que no es recomendable
-        //La segunda usando los arguments, setar argumentos al adaptador que vamos a
-        //mandar a cada instancia
         fragment.arguments = Bundle().apply {
-            // Our object is just an integer :-P
             putInt(ARG_OBJECT, position + 1);
-
         }
 
-        return fragment
-
-        //En caso de que lo fragments sean diferentes
-        //usaremos un when
-        /*when(position){
-            1 -> {return fragment1}
-            2 -> {return fragment2}
-        }*/
+        return fragment;
     }
 }

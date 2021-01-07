@@ -21,7 +21,8 @@ class CrearGrupoActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth : FirebaseAuth;
 
-    private val listaIntegrantes = mutableListOf<Usuario>();
+    val listaIntegrantes = mutableListOf<Usuario>();
+    val mapaIntegrantes  = mutableMapOf<String,String>();
     private val adaptador = IntegranteAdapter(listaIntegrantes,this);
 
     private val db = FirebaseDatabase.getInstance();
@@ -30,7 +31,7 @@ class CrearGrupoActivity : AppCompatActivity() {
     private val userRef = db.getReference("users");
     private val chatroomsRef = db.getReference("chatrooms");
 
-    public var integrantes : MutableList<String> = mutableListOf(currUser!!.uid);
+    public var integrantes : MutableList<Usuario> = mutableListOf();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ class CrearGrupoActivity : AppCompatActivity() {
         initUsers();
 
         crearGrupoBTN.setOnClickListener{
-            if(grupoNombre.text.isNotEmpty() && grupoNombre.text.isNotBlank()){
+            if(grupoNombre.text.isNotEmpty() && grupoNombre.text.isNotBlank() && integrantes.size > 1){
                 createGroupChatroom();
                 finish();
             }
@@ -55,7 +56,7 @@ class CrearGrupoActivity : AppCompatActivity() {
 
         val chatroomInfo = Chatroom(
             newChatroom.key!!,
-            integrantes,
+            mapaIntegrantes,
             grupoNombre.text.toString(),
             ChatroomType.Group
         );
@@ -65,9 +66,9 @@ class CrearGrupoActivity : AppCompatActivity() {
         addRoomToUsers(integrantes, chatroomInfo);
     }
 
-    private fun addRoomToUsers(userList : List<String>, chatroom: Chatroom){
+    private fun addRoomToUsers(userList : List<Usuario>, chatroom: Chatroom){
         for(user in userList){
-            val userChatsRef =userRef.child("${user}/chatrooms");
+            val userChatsRef =userRef.child("${user.uid}/chatrooms");
 
             val newChatroom = userChatsRef.push();
             newChatroom.setValue(chatroom);
