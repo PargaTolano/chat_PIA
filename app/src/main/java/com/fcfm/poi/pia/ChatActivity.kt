@@ -21,6 +21,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_login.*
+import java.io.ByteArrayOutputStream
 import java.net.URI
 import kotlin.system.measureNanoTime
 
@@ -79,10 +80,9 @@ class ChatActivity : AppCompatActivity() {
                     enviarMensaje(Mensaje("", mensaje, file, currUser?.email!! , ServerValue.TIMESTAMP))
                 }
                 else{
-                    enviarMensaje(Mensaje("", mensaje, null, currUser?.email!! , ServerValue.TIMESTAMP))
+                    enviarMensaje(Mensaje("", encrypter.encrypt(mensaje.toByteArray()), null, currUser?.email!! , ServerValue.TIMESTAMP))
                 }
                 filepath = Uri.EMPTY
-                enviarMensaje(Mensaje("", encrypter.encrypt(mensaje.toByteArray()), currUser?.email!! , ServerValue.TIMESTAMP));
             }
         }
 
