@@ -124,7 +124,7 @@ class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerV
 
         val otherUserChatroomRef = db.getReference("users/${uid}/chatrooms");
 
-        var found = buscarUsuario(chatroomList.toList(), uid);
+        var found : Chatroom? = buscarUsuario(chatroomList.toList(), uid);
 
         //chat nuevo
         if(found == null){

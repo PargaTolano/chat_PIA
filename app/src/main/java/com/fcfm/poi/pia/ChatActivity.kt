@@ -13,12 +13,14 @@ import android.widget.Toast
 import com.fcfm.poi.pia.adaptadores.ChatAdapter
 import com.fcfm.poi.pia.modelos.Imagen
 import com.fcfm.poi.pia.modelos.Mensaje
+import com.fcfm.poi.pia.utils.MessageEncrypter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_login.*
 import java.net.URI
+import kotlin.system.measureNanoTime
 
 class ChatActivity : AppCompatActivity() {
 
@@ -32,6 +34,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var chatRef : DatabaseReference;
 
     private val currUser = FirebaseAuth.getInstance().currentUser;
+    private val encrypter = MessageEncrypter("myPass");
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +62,7 @@ class ChatActivity : AppCompatActivity() {
 
                 txtMensaje.text.clear()
 
-                enviarMensaje(Mensaje("", mensaje, currUser?.email!! , ServerValue.TIMESTAMP))
+                enviarMensaje(Mensaje("", encrypter.encrypt(mensaje.toByteArray()), currUser?.email!! , ServerValue.TIMESTAMP));
             }
         }
 
@@ -139,7 +142,7 @@ class ChatActivity : AppCompatActivity() {
     private fun enviarMensaje(mensaje: Mensaje) {
 
         val mensajeFireBase = chatRef.push()
-        mensaje.id = mensajeFireBase.key ?: ""
+        mensaje.id = mensajeFireBase.key ?: "";
 
         mensajeFireBase.setValue(mensaje)
     }
@@ -157,6 +160,9 @@ class ChatActivity : AppCompatActivity() {
                         mensaje.esMio = true;
                     }
 
+                    mensaje.contenido = encrypter.decrypt(mensaje.contenido);
+                    System.out.println("Mensaje Decriptado en Chat : " + mensaje.contenido);
+
                     listaMensajes.add(mensaje);
                 }
 
@@ -166,8 +172,7 @@ class ChatActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-
-
+                System.out.println("CHAT ACTIVITY : ERROR DATABASE MENSAJE LISTENER");
             }
         })
     }

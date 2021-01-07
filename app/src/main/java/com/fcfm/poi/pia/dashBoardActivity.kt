@@ -2,6 +2,7 @@ package com.fcfm.poi.pia
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ActionMode
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
@@ -41,6 +42,8 @@ class dashBoardActivity : AppCompatActivity() {
     private lateinit var rv_dash : RecyclerView;
 
     private lateinit var pagerMain : ViewPager2;
+
+    private val firbaseAuth = FirebaseAuth.getInstance();
 
     private val currUser = FirebaseAuth.getInstance().currentUser;
 
@@ -103,17 +106,4 @@ class dashBoardActivity : AppCompatActivity() {
             startActivity(intent);
         }
     }
-
-    override fun onStop() {
-        super.onStop();
-
-        userRef
-            .child(currUser!!.uid)
-            .setValue(
-                users.find{user-> user.uid == currUser!!.uid}.apply { this!!.userConectionState = UserConectionState.Absent }
-            );
-    }
-
-
-
 }

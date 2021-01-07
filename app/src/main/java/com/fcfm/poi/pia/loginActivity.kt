@@ -25,23 +25,7 @@ class loginActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
 
     private val db = FirebaseDatabase.getInstance();
-    private val userRef = db.getReference("users").apply {
-        addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                users.clear();
-
-                for(snap in snapshot.children){
-                    val user = snap.getValue(Usuario::class.java) as Usuario;
-
-                    users.add(user);
-                }
-            }
-        })
-    };
+    private val userRef = db.getReference("users");
 
     private val users = mutableListOf<Usuario>();
 
@@ -50,6 +34,8 @@ class loginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         firebaseAuth = FirebaseAuth.getInstance()
+
+        inicializarValueEvents();
 
         btnIniciar.setOnClickListener {
             autenticarLogin()
@@ -82,6 +68,7 @@ class loginActivity : AppCompatActivity() {
             dbUser.setValue(currUserInfo);
 
             startActivity(intentDash)
+            finish();
         }
     }
 
@@ -111,5 +98,22 @@ class loginActivity : AppCompatActivity() {
     private fun mostrarMensaje(msj: String)
     {
         Toast.makeText(this, msj, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun inicializarValueEvents(){
+        userRef.addValueEventListener(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                System.out.println("Mensaje de error Firebase: " + error.message);
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                users.clear();
+                for(snap in snapshot.children){
+                    val user = snap.getValue(Usuario::class.java) as Usuario;
+                    users.add(user);
+                }
+            }
+
+        })
     }
 }
