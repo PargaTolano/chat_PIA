@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_login.*
 import java.io.ByteArrayOutputStream
 import java.net.URI
+import java.time.LocalTime
 import kotlin.system.measureNanoTime
 
 class ChatActivity : AppCompatActivity() {
@@ -135,7 +136,6 @@ class ChatActivity : AppCompatActivity() {
 
         imageView.setOnClickListener {
             startFileChooser();
-            uploadFile();
         }
 
         emailUser.setOnClickListener{
