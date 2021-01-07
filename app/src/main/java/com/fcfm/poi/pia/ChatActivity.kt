@@ -15,11 +15,14 @@ import android.widget.Toast
 import com.fcfm.poi.pia.adaptadores.ChatAdapter
 import com.fcfm.poi.pia.modelos.Imagen
 import com.fcfm.poi.pia.modelos.Mensaje
+import com.fcfm.poi.pia.utils.MessageEncrypter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_chat.*
-import java.io.ByteArrayOutputStream
+import kotlinx.android.synthetic.main.activity_login.*
+import java.net.URI
+import kotlin.system.measureNanoTime
 
 class ChatActivity : AppCompatActivity() {
 
@@ -33,7 +36,8 @@ class ChatActivity : AppCompatActivity() {
     private val chatroomRef = database.getReference("chatrooms")
     private lateinit var chatRef : DatabaseReference
 
-    private val currUser = FirebaseAuth.getInstance().currentUser
+    private val currUser = FirebaseAuth.getInstance().currentUser;
+    private val encrypter = MessageEncrypter("myPass");
 
 
     companion object{
@@ -78,6 +82,7 @@ class ChatActivity : AppCompatActivity() {
                     enviarMensaje(Mensaje("", mensaje, null, currUser?.email!! , ServerValue.TIMESTAMP))
                 }
                 filepath = Uri.EMPTY
+                enviarMensaje(Mensaje("", encrypter.encrypt(mensaje.toByteArray()), currUser?.email!! , ServerValue.TIMESTAMP));
             }
         }
 
@@ -187,7 +192,7 @@ class ChatActivity : AppCompatActivity() {
     private fun enviarMensaje(mensaje: Mensaje) {
 
         val mensajeFireBase = chatRef.push()
-        mensaje.id = mensajeFireBase.key ?: ""
+        mensaje.id = mensajeFireBase.key ?: "";
 
         uploadFile(mensaje.id)
 
@@ -211,7 +216,10 @@ class ChatActivity : AppCompatActivity() {
                         mensaje.esMio = true
                     }
 
-                    listaMensajes.add(mensaje)
+                    mensaje.contenido = encrypter.decrypt(mensaje.contenido);
+                    System.out.println("Mensaje Decriptado en Chat : " + mensaje.contenido);
+
+                    listaMensajes.add(mensaje);
                 }
 
                 if(listaMensajes.size > 0) {
@@ -221,8 +229,7 @@ class ChatActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-
-
+                System.out.println("CHAT ACTIVITY : ERROR DATABASE MENSAJE LISTENER");
             }
         })
     }

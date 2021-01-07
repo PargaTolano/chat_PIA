@@ -1,28 +1,19 @@
 package com.fcfm.poi.pia
 
 import android.app.DatePickerDialog
-import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.DatePicker
-import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
 import com.fcfm.poi.pia.modelos.Assignment
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
 import kotlinx.android.synthetic.main.activity_creacion_tareas.*
-import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
@@ -61,21 +52,21 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
         pickHour()
 
         asignarBtn.setOnClickListener{
-            if( tituloText.text.isNotEmpty()        &&
-                tituloText.text.isNotBlank()        &&
-                instruccionesText.text.isNotEmpty() &&
-                instruccionesText.text.isNotBlank()
+            if( textDestinatario.text.isNotEmpty()        &&
+                textDestinatario.text.isNotBlank()        &&
+                textAsunto.text.isNotEmpty() &&
+                textAsunto.text.isNotBlank()
               )
             {
-                val tt = tituloText.text.toString()
-                val it = instruccionesText.text.toString()
+                val tt = textDestinatario.text.toString()
+                val it = textAsunto.text.toString()
 
                 //Sacar Date Time Hecho String
                 val localDate = LocalDate.of(saveyear,savemonth,saveday)
                 val localTime = LocalTime.of(savehour, saveminute)
                 val localDT   = LocalDateTime.of(localDate!!, localTime!!)
 
-                val pt = puntosText.text.toString().toInt()
+                val pt = textCuerpo.text.toString().toInt()
 
                 createAssignment(Assignment("", tt, it, pt, localDT))
 

@@ -44,7 +44,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/tituloText"
+                android:id="@+id/textDestinatario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -75,10 +75,10 @@
                 app:layout_constraintEnd_toEndOf="@+id/textView3"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
-                app:layout_constraintTop_toBottomOf="@+id/tituloText" />
+                app:layout_constraintTop_toBottomOf="@+id/textDestinatario" />
 
             <EditText
-                android:id="@+id/instruccionesText"
+                android:id="@+id/textAsunto"
                 android:layout_width="match_parent"
                 android:layout_height="78dp"
                 android:layout_marginTop="5dp"
@@ -108,10 +108,10 @@
                 app:layout_constraintEnd_toEndOf="@+id/textView3"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
-                app:layout_constraintTop_toBottomOf="@+id/instruccionesText" />
+                app:layout_constraintTop_toBottomOf="@+id/textAsunto" />
 
             <EditText
-                android:id="@+id/puntosText"
+                android:id="@+id/textCuerpo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -135,9 +135,9 @@
                 android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/asignarBtn"
-                app:layout_constraintEnd_toEndOf="@+id/puntosText"
-                app:layout_constraintStart_toStartOf="@+id/puntosText"
-                app:layout_constraintTop_toBottomOf="@+id/puntosText">
+                app:layout_constraintEnd_toEndOf="@+id/textCuerpo"
+                app:layout_constraintStart_toStartOf="@+id/textCuerpo"
+                app:layout_constraintTop_toBottomOf="@+id/textCuerpo">
 
 
                 <LinearLayout

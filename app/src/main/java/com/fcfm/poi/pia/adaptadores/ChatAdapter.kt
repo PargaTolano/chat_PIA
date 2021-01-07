@@ -69,6 +69,8 @@ class ChatAdapter(private val listaMensajes: MutableList<Mensaje>, private val c
                 )
                 itemView.contenedorMensaje.layoutParams = newParams
 
+                itemView.tvUsuario.visibility = View.GONE;
+
             } else {
 
                 val newParams = FrameLayout.LayoutParams(

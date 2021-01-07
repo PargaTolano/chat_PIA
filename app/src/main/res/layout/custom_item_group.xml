@@ -13,17 +13,17 @@
         android:background="@color/deepPurple">
 
         <ImageView
-            android:id="@+id/ivPP"
+            android:id="@+id/ivGroupPic"
             android:layout_width="146dp"
             android:layout_height="48dp"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_marginVertical="10dp"
-            android:layout_toLeftOf="@+id/tvEmail"
+            android:layout_toStartOf="@+id/tvGroupName"
             app:srcCompat="@drawable/ic_user"
             tools:srcCompat="@drawable/ic_user" />
 
         <TextView
-            android:id="@+id/tvEmail"
+            android:id="@+id/tvGroupName"
             android:layout_width="264dp"
             android:layout_height="wrap_content"
             android:layout_above="@+id/tvUID"
@@ -33,7 +33,7 @@
             android:layout_marginVertical="10dp"
             android:layout_marginBottom="15dp"
             android:paddingVertical="10dp"
-            android:text="Nombre del integrante"
+            android:text="Nombre del Grupo"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
             android:textSize="20sp" />
@@ -42,7 +42,7 @@
             android:id="@+id/tvUID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvConnectedState"
+            android:layout_below="@id/ivGroupPic"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
@@ -54,20 +54,6 @@
             android:textColorLink="@color/colorWhite"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tvConnectedState"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ivPP"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="5dp"
-            android:text="Connected State"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/cardview_dark_background"
-            android:textColorLink="@color/colorWhite"
-            app:drawableTint="@color/colorWhite"
-            app:drawableStartCompat="@drawable/ic_user" />
 
     </RelativeLayout>
 
