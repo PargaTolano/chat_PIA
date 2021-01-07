@@ -28,6 +28,8 @@ import kotlinx.android.synthetic.main.fragment_demo_object.*
  */
 class DemoObjectFragment(private val activity : dashBoardActivity) : Fragment() {
 
+    private val firebaseAuth = FirebaseAuth.getInstance();
+    private val currUser = firebaseAuth.currentUser!!;
     private val db  = FirebaseDatabase.getInstance()
 
     private val chatRoomRef     = db.getReference("chatrooms")
@@ -40,7 +42,6 @@ class DemoObjectFragment(private val activity : dashBoardActivity) : Fragment() 
 
     private val chatroomAdapter   = ChatroomAdapter     (chatroomList);
     private val assignmentAdapter = AssignmentAdapter   (assignmentList);
-    private val userAdapter       = UsuarioCardAdapter  (userList);
 
     companion object{
         private  const val ARG_OBJECT ="object"
@@ -54,8 +55,6 @@ class DemoObjectFragment(private val activity : dashBoardActivity) : Fragment() 
         return inflater.inflate(R.layout.fragment_demo_object, container, false)
     }
 
-    //Va apesar el argumento del adaptador
-    val myUsers = activity.users;
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Esto es un get si contiene el argumento tal
@@ -75,7 +74,8 @@ class DemoObjectFragment(private val activity : dashBoardActivity) : Fragment() 
                 }
                 3->{
                     tv_nombre.text = "Chats";
-                    rv_view.adapter = UsuarioCardAdapter(myUsers).apply { initializeUserChatroomRef() };
+                    rv_view.adapter = UsuarioCardAdapter( activity.users.filter { it.uid != currUser.uid }.toMutableList(), activity)
+                        .apply { initializeUserChatroomRef() };
                 }
             }
         }
@@ -118,10 +118,6 @@ class DemoObjectFragment(private val activity : dashBoardActivity) : Fragment() 
 
                     if(user.uid != FirebaseAuth.getInstance().currentUser!!.uid)
                         userList.add(user);
-                }
-
-                if(userList.size > 0) {
-                    userAdapter.notifyDataSetChanged();
                 }
             }
 

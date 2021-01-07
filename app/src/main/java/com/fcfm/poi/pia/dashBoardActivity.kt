@@ -81,7 +81,6 @@ class dashBoardActivity : AppCompatActivity() {
                     users.add(user);
                 }
             }
-
         })
     };
 
@@ -119,13 +118,6 @@ class dashBoardActivity : AppCompatActivity() {
         nombreUsuario = intent.getStringExtra("nombreUsuario") ?: "sin_nombre";
 
         tv_nameUser.text = nombreUsuario;
-
-        btnCorreo.setOnClickListener{
-            val intent = Intent(this, activity_correo::class.java).apply {
-                putExtra("usuarios", arrayOf("parga@test.com"));
-            };
-            startActivity(intent);
-        }
 
         btnTareas.setOnClickListener {
             val intent = Intent(this, CreacionTareas::class.java);

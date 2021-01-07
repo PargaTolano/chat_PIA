@@ -30,9 +30,8 @@ class IntegranteAdapter(private val userList : MutableList<Usuario>, private var
 
         if(c){
 
-            val user = activity.integrantes.find{ it.uid == itemView.tvUID.text.toString()};
-            val i = activity.integrantes.indexOf(user);
-            activity.integrantes.removeAt(i);
+            val user = activity.integrantes.find{ it.uid == itemView.tvUID.text.toString()}!!;
+            activity.integrantes.remove(user);
 
             itemView.cbAgregado.isChecked = false;
 
@@ -41,12 +40,12 @@ class IntegranteAdapter(private val userList : MutableList<Usuario>, private var
             itemView.btnAddAtGroup.text = "AGREGAR";
         }
         else{
-
             val userUID : String = itemView.tvUID.text.toString();
             val user = activity.listaIntegrantes.find { user-> user.uid == userUID };
 
+
             if( user != null){
-                activity.mapaIntegrantes[user.uid] = user.email;
+                activity.integrantes.add(user);
 
                 itemView.cbAgregado.isChecked = true;
 

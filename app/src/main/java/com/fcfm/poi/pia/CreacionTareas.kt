@@ -52,9 +52,9 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
         pickHour()
 
         asignarBtn.setOnClickListener{
-            if( textDestinatario.text.isNotEmpty()        &&
-                textDestinatario.text.isNotBlank()        &&
-                textAsunto.text.isNotEmpty() &&
+            if( textDestinatario.text.isNotEmpty() &&
+                textDestinatario.text.isNotBlank() &&
+                textAsunto.text.isNotEmpty()       &&
                 textAsunto.text.isNotBlank()
               )
             {
@@ -62,16 +62,15 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
                 val it = textAsunto.text.toString()
 
                 //Sacar Date Time Hecho String
-                val localDate = LocalDate.of(saveyear,savemonth,saveday)
-                val localTime = LocalTime.of(savehour, saveminute)
-                val localDT   = LocalDateTime.of(localDate!!, localTime!!)
+                val localDate = LocalDate.of(saveyear,savemonth,saveday);
+                val localTime = LocalTime.of(savehour, saveminute);
+                val localDT   = LocalDateTime.of(localDate!!, localTime!!);
 
-                val pt = textCuerpo.text.toString().toInt()
+                val pt = textCuerpo.text.toString().toInt();
 
-                createAssignment(Assignment("", tt, it, pt, localDT))
+                createAssignment(Assignment("", tt, it, pt, localDT));
 
-                val intent = Intent(this, dashBoardActivity::class.java)
-                startActivity(intent)
+                finish();
             }
         }
     }
@@ -101,10 +100,9 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
 
     private  fun pickHour(){
         tv_timer1.setOnClickListener {
-            getDateTimeCalendar()
+            getDateTimeCalendar();
 
-            TimePickerDialog(this, this,hour,minute,true).show()
-
+            TimePickerDialog(this, this,hour,minute,true).show();
         }
     }
 
@@ -122,6 +120,7 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
 
         tv_hora1.text="Hora:$savehour Minuto:$saveminute"
     }
+
     /* class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
 
          override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -160,11 +159,8 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
              return DatePickerDialog(this.requireContext(), this,year, month, day)
          }
 
-
          override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
              // Do something with the date chosen by the user
-
-
          }
      }
 

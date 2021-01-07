@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.fcfm.poi.pia.ChatActivity
 import com.fcfm.poi.pia.R
+import com.fcfm.poi.pia.dashBoardActivity
 import com.fcfm.poi.pia.enums.ChatroomType
 import com.fcfm.poi.pia.enums.UserConectionState
 import com.fcfm.poi.pia.modelos.Chatroom
@@ -21,7 +22,7 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.custom_item_usercard.view.*
 
 
-class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerView.Adapter<UsuarioCardAdapter.UsuarioCardViewHolder>() {
+class UsuarioCardAdapter(private val userList : MutableList<Usuario>,private val activity: dashBoardActivity): RecyclerView.Adapter<UsuarioCardAdapter.UsuarioCardViewHolder>() {
 
     private val firebaseAuth : FirebaseAuth = FirebaseAuth.getInstance();
     private val db = FirebaseDatabase.getInstance();
@@ -134,8 +135,8 @@ class UsuarioCardAdapter(private val userList : MutableList<Usuario>): RecyclerV
 
             found = Chatroom();
             found.id = newChatroom.key!!;
-            found.participantes[nUID] = userList.find{it.uid == nUID}!!.email!!;
-            found.participantes[uid] = userList.find{it.uid == nUID}!!.email!!;
+            found.participantes[nUID] = activity.users.find{it.uid == nUID}!!.email!!;
+            found.participantes[uid] = activity.users.find{it.uid == uid}!!.email!!;
             found.type = ChatroomType.DirectMessage;
 
             //Agregar a la coleccion de chatrooms

@@ -121,20 +121,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="6"
+            android:layout_weight="7"
             android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btnCorreo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorItem2"
-                android:drawableStart="@drawable/ic_chat"
-                android:drawableTint="@color/colorWhite"
-                android:text="Enviar Correo"
-                android:textAlignment="center"
-                android:textColor="@color/colorWhite"
-                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btnTareas"

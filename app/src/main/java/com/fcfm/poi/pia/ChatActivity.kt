@@ -30,7 +30,7 @@ import kotlin.system.measureNanoTime
 
 class ChatActivity : AppCompatActivity() {
 
-    private val usersInChat = mutableListOf<Usuario>();
+    private var usersInChat = mutableListOf<String>();
     private val listaMensajes = mutableListOf<Mensaje>();
     private lateinit var nombreUsuario: String;
     private lateinit var chatroomId : String;
@@ -84,18 +84,16 @@ class ChatActivity : AppCompatActivity() {
             })
         };
         chatRef = currentChatroomRef.child("chat");
-        usersInChatRef = chatroomRef.child("participantes").apply {
+        usersInChatRef = currentChatroomRef.child("participantes").apply {
             addValueEventListener(object: ValueEventListener{
                 override fun onCancelled(error: DatabaseError) {
                     System.out.println("Chat Activity : error on db connection");
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    usersInChat.clear()
-                    for(snap in snapshot.children){
-                        val user : Usuario = snap.getValue(Usuario::class.java) as Usuario;
-                        usersInChat.add(user);
-                    }
+                    usersInChat.clear();
+                    val temp  =  snapshot.getValue() as MutableMap<String,String>;
+                    usersInChat = temp!!.values.toMutableList();
                 }
             });
         }
@@ -139,13 +137,14 @@ class ChatActivity : AppCompatActivity() {
         }
 
         emailUser.setOnClickListener{
-
             val toneGen1 = ToneGenerator(AudioManager.STREAM_MUSIC, 100);
             toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
-            /*val intent = Intent(this, activity_correo::class.java).apply {
-                putExtra("usuarios", usersInChat.map { it.email }.toTypedArray());
+
+            val intent = Intent(this, activity_correo::class.java).apply {
+                val emails : Array<String> = usersInChat.filter { it != currUser!!.email }.toTypedArray();
+                putExtra("usuarios", emails);
             };
-            startActivity(intent)*/
+            startActivity(intent)
         }
 
         listaMensajes.clear()
