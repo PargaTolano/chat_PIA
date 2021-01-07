@@ -37,26 +37,19 @@ class ChatAdapter(private val listaMensajes: MutableList<Mensaje>, private val c
             var fileRef = FirebaseStorage.getInstance().reference.child("chatroom/"+chatRef+"/"+mensaje.id+"pic.jpg")
             //var fileRef = FirebaseStorage.getInstance().reference.child("chatroom/"+chatRef+"pic.jpg")
             val maxDownloadSize = 5L * 1024 * 1024
-            fileRef.getBytes(maxDownloadSize).addOnSuccessListener { task ->
+            fileRef.getBytes(maxDownloadSize)
+                .addOnSuccessListener { task ->
                 mensaje.archivo = task
                 val imageView : ImageView = itemView.findViewById(R.id.tvFile)
                 if (mensaje.archivo != null)
                 {
                     imageView.setImageBitmap(ImageUtilities.getBitMapFromByteArray(mensaje.archivo!!))
                 }
-            }
-                .addOnFailureListener {
-                    mensaje.archivo = null
-                    val imageView : ImageView = itemView.findViewById(R.id.tvFile)
-                    if (mensaje.archivo != null)
-                    {
-                        imageView.setImageBitmap(ImageUtilities.getBitMapFromByteArray(mensaje.archivo!!))
-                    }
                 }
-
-
-
-
+                .addOnFailureListener {
+                    mensaje.archivo = null;
+                    itemView.tvFile.visibility =  View.GONE;
+                }
 
             val params = itemView.contenedorMensaje.layoutParams
 
