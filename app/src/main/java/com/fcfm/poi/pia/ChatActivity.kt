@@ -115,7 +115,7 @@ class ChatActivity : AppCompatActivity() {
 
                 if(filepath != Uri.EMPTY)
                 {
-                    enviarMensaje(Mensaje("", mensaje, file, currUser?.email!! , ServerValue.TIMESTAMP))
+                    enviarMensaje(Mensaje("", encrypter.encrypt(mensaje.toByteArray()), file, currUser?.email!! , ServerValue.TIMESTAMP))
                 }
                 else{
                     enviarMensaje(Mensaje("", encrypter.encrypt(mensaje.toByteArray()), null, currUser?.email!! , ServerValue.TIMESTAMP))
@@ -260,7 +260,7 @@ class ChatActivity : AppCompatActivity() {
                     }
 
                     mensaje.contenido = encrypter.decrypt(mensaje.contenido);
-                    System.out.println("Mensaje Decriptado en Chat : " + mensaje.contenido);
+                    /*System.out.println("Mensaje Decriptado en Chat : " + mensaje.contenido);*/
 
                     listaMensajes.add(mensaje);
                 }
