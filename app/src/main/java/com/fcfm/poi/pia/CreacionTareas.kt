@@ -8,6 +8,8 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import com.fcfm.poi.pia.modelos.Assignment
+import com.fcfm.poi.pia.modelos.Chatroom
+import com.fcfm.poi.pia.modelos.FechaAssignment
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_creacion_tareas.*
@@ -30,26 +32,31 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
     var savehour=0
     var saveminute=0
 
-    private lateinit var chatroomId : String
+    private lateinit var chatroomId : String;
+    private lateinit var users : Array<String>;
 
     val database = FirebaseDatabase.getInstance();
+
     var chatroomRef     = database.getReference("chatrooms");
-    private lateinit var assignmentRef : DatabaseReference
+    lateinit var currentChatroom : DatabaseReference;
+    val assignmentRef   = database.getReference("assignments");
+    val userRef         = database.getReference("users");
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creacion_tareas)
 
-        chatroomId  = intent.getStringExtra("chatroomId") ?: ""
+        chatroomId  = intent.getStringExtra("chatroomId") ?: "";
+        users = intent.getStringArrayExtra("usuarios")?: arrayOf();
 
-        if(chatroomId.isEmpty()){
+        if(chatroomId.isEmpty() || users.isEmpty()){
             finish();
         }
 
-        assignmentRef = chatroomRef.child(chatroomId).child("chats");
+        currentChatroom = chatroomRef.child(chatroomId);
 
-        pickDate()
-        pickHour()
+        pickDate();
+        pickHour();
 
         asignarBtn.setOnClickListener{
             if( textDestinatario.text.isNotEmpty() &&
@@ -58,17 +65,32 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
                 textAsunto.text.isNotBlank()
               )
             {
-                val tt = textDestinatario.text.toString()
-                val it = textAsunto.text.toString()
+                val tt = textDestinatario.text.toString();
+                val it = textAsunto.text.toString();
+
+                val hour = tv_hora1.text.toString()
+                val date = tv_dia1.text.toString()
+
+                val hourArr = hour.split(":");
+                val dateArr = date.split("-");
 
                 //Sacar Date Time Hecho String
-                val localDate = LocalDate.of(saveyear,savemonth,saveday);
-                val localTime = LocalTime.of(savehour, saveminute);
+                val localDate = LocalDate.of(dateArr[2].toInt(),dateArr[1].toInt(),dateArr[0].toInt());
+                val localTime = LocalTime.of(hourArr[0].toInt(), hourArr[1].toInt());
                 val localDT   = LocalDateTime.of(localDate!!, localTime!!);
 
                 val pt = textCuerpo.text.toString().toInt();
 
-                createAssignment(Assignment("", tt, it, pt, localDT));
+                createAssignment(Assignment("", tt, it, pt,
+                        FechaAssignment(
+                            localDT.year,
+                            localDT.monthValue,
+                            localDT.dayOfMonth,
+                            localDT.hour,
+                            localDT.minute
+                        )
+                    )
+                );
 
                 finish();
             }
@@ -76,15 +98,23 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
     }
 
     private fun createAssignment(assignment:Assignment){
-        val assignmentFirebase = assignmentRef.push()
-        assignment.id = assignmentFirebase.key ?: ""
-        assignmentFirebase.setValue(assignment)
+        val assignmentFirebase = assignmentRef.push();
+        assignment.id = assignmentFirebase.key ?: "";
+        assignmentFirebase.setValue(assignment);
+
+        currentChatroom.child(assignmentFirebase!!.key!!)
+            .setValue(assignment);
+
+        for(user in users){
+            userRef.child("$user/assignments/${assignmentFirebase!!.key!!}")
+                .setValue(assignment);
+        }
     }
 
     private fun getDateTimeCalendar(){
         val cal= Calendar.getInstance()
         day = cal.get(Calendar.DAY_OF_MONTH)
-        month = cal.get(Calendar.MONTH)
+        month = cal.get(Calendar.MONTH)+1
         year = cal.get(Calendar.YEAR)
         hour = cal.get(Calendar.HOUR)
         minute = cal.get(Calendar.MINUTE)
@@ -107,18 +137,18 @@ class CreacionTareas : AppCompatActivity(), DatePickerDialog.OnDateSetListener, 
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        saveday = dayOfMonth
-        savemonth = month
-        saveyear = year
+        saveday = dayOfMonth;
+        savemonth = month;
+        saveyear = year;
 
-        tv_dia1.text="$saveday-$savemonth-$saveyear"
+        tv_dia1.text="$saveday-${savemonth+1}-$saveyear";
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         savehour= hourOfDay
         saveminute=minute
 
-        tv_hora1.text="Hora:$savehour Minuto:$saveminute"
+        tv_hora1.text="$savehour:$saveminute"
     }
 
     /* class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {

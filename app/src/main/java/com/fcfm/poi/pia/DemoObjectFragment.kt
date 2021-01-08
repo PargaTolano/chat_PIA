@@ -32,9 +32,9 @@ class DemoObjectFragment(private val activity : dashBoardActivity) : Fragment() 
     private val currUser = firebaseAuth.currentUser!!;
     private val db  = FirebaseDatabase.getInstance()
 
-    private val chatRoomRef     = db.getReference("chatrooms")
-    private val userRef         = db.getReference("users")
-    private val assignmentRef   = db.getReference("assignments")
+    private val chatRoomRef     = db.getReference("chatrooms");
+    private val userRef         = db.getReference("users");
+    private val assignmentRef   = userRef.child("${currUser.uid}/assignments");
 
     private val chatroomList = mutableListOf<Chatroom>();
     private val assignmentList = mutableListOf<Assignment>();

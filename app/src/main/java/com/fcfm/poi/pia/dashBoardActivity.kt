@@ -52,22 +52,6 @@ class dashBoardActivity : AppCompatActivity() {
 
         })
     };
-    private val assignmentRef = FirebaseDatabase.getInstance().getReference("users").apply {
-        addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-                //TODO("Not yet implemented")
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                assignments.clear();
-                for(snap in snapshot.children){
-                    val assignment = snap.getValue(Assignment::class.java) as Assignment;
-                    assignments.add(assignment);
-                }
-            }
-
-        })
-    };
     private val userRef = FirebaseDatabase.getInstance().getReference("users").apply {
         addValueEventListener(object : ValueEventListener{
             override fun onCancelled(error: DatabaseError) {

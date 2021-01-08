@@ -18,18 +18,22 @@ class AssignmentAdapter(private val assignmentList : MutableList<Assignment>) :
     class AssignmentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun asignarInformacion(assignment: Assignment) {
-            itemView.assignmentTitle.text = assignment.titulo
-
-            val formatter = SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.getDefault())
-            val formattedDate = formatter.format(Date(assignment.timestamp as Long))
-            itemView.assignmentDueDate.text = formattedDate
+            itemView.assignmentTitle.text = assignment.titulo;
+            val dateString = String.format("%d/%d/%d %d:%d",
+                assignment.timestamp!!.dia,
+                assignment.timestamp!!.mes,
+                assignment.timestamp!!.anio,
+                assignment.timestamp!!.hora,
+                assignment.timestamp!!.minuto
+            );
+            itemView.assignmentDueDate.text = dateString
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssignmentAdapter.AssignmentViewHolder {
 
         return AssignmentAdapter.AssignmentViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.custom_item_mensaje, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.assignment_list, parent, false)
             //No deberia ser assigment_list(nombre del elemento el layout), el que muestra la tarea?
         )
     }

@@ -16,21 +16,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fcfm.poi.pia.adaptadores.ChatAdapter
 import com.fcfm.poi.pia.modelos.Mensaje
-import com.fcfm.poi.pia.modelos.Usuario
 import com.fcfm.poi.pia.utils.MessageEncrypter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.activity_login.*
 import java.io.ByteArrayOutputStream
-import java.net.URI
-import java.time.LocalTime
-import kotlin.system.measureNanoTime
 
 class ChatActivity : AppCompatActivity() {
 
     private var usersInChat = mutableListOf<String>();
+    private var emailsInChat = mutableListOf<String>();
     private val listaMensajes = mutableListOf<Mensaje>();
     private lateinit var nombreUsuario: String;
     private lateinit var chatroomId : String;
@@ -91,9 +87,10 @@ class ChatActivity : AppCompatActivity() {
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    usersInChat.clear();
+                    emailsInChat.clear();
                     val temp  =  snapshot.getValue() as MutableMap<String,String>;
-                    usersInChat = temp!!.values.toMutableList();
+                    usersInChat = temp!!.keys.toMutableList();
+                    emailsInChat = temp!!.values.toMutableList();
                 }
             });
         }
@@ -141,10 +138,19 @@ class ChatActivity : AppCompatActivity() {
             toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
 
             val intent = Intent(this, activity_correo::class.java).apply {
-                val emails : Array<String> = usersInChat.filter { it != currUser!!.email }.toTypedArray();
+                val emails : Array<String> = emailsInChat.filter { it != currUser!!.email }.toTypedArray();
                 putExtra("usuarios", emails);
             };
             startActivity(intent)
+        }
+
+        tarea.setOnClickListener{
+
+            val intent = Intent(this, CreacionTareas::class.java).apply {
+                putExtra("chatroomId", chatroomId);
+                putExtra("usuarios", usersInChat.filter { it != currUser!!.uid }.toTypedArray());
+            }
+            startActivity(intent);
         }
 
         listaMensajes.clear()

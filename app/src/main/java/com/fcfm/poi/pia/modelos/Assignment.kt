@@ -6,5 +6,5 @@ class Assignment (var id: String = "",
                   var titulo: String = "",
                   var instrucciones: String = "",
                   var puntos: Int = 0,
-                  var timestamp: Any? = null){
+                  var timestamp: FechaAssignment? = null){
 }
