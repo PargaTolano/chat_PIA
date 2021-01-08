@@ -31,11 +31,15 @@ class CrearGrupoActivity : AppCompatActivity() {
     private val userRef = db.getReference("users");
     private val chatroomsRef = db.getReference("chatrooms");
 
-    public var integrantes : MutableList<Usuario> = mutableListOf();
+    var integrantes : MutableList<Usuario> = mutableListOf();
+    var usuarios = mutableListOf<String>();
+    var correos = mutableListOf<String>();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_grupo);
+
+        mapaIntegrantes[currUser!!.uid] = currUser!!.email!!;
 
         rv_integrantes.adapter = adaptador;
 
@@ -45,6 +49,7 @@ class CrearGrupoActivity : AppCompatActivity() {
 
         crearGrupoBTN.setOnClickListener{
             if(grupoNombre.text.isNotEmpty() && grupoNombre.text.isNotBlank() && integrantes.size > 1){
+                llenarMapa();
                 createGroupChatroom();
                 finish();
             }
@@ -75,11 +80,17 @@ class CrearGrupoActivity : AppCompatActivity() {
         }
     }
 
+    private fun llenarMapa(){
+        for( i in 0..(integrantes.size-1)){
+            mapaIntegrantes[integrantes[i].uid] = integrantes[i].email;
+        }
+    }
+
     private fun initUsers() {
 
         userRef.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                //TODO("Not yet implemented")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
